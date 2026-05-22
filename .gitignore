@@ -1,0 +1,17 @@
+ET1/
+
+#
+dc_netlist_parser/report/
+dc_netlist_parser/script/
+
+#
+b14/Partitioning_Flt
+b14/Partitioning_Stil
+b14/Partitioning_Stil_Testbench
+b14/Partitioning_Stil_Testbench_VCD
+
+b14_FaultSim_Per_Pattern.tmx.log
+b14_Essential_Fault.txt
+b14_signal_list.txt
+
+python/src/__pycache__

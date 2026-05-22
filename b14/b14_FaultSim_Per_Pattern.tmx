@@ -1,0 +1,53 @@
+# Fault Simulation per 1 ATPG Pattern
+# Read library
+read_netlist -lib /home/csis/ohtake/cad/lib/TetraMAX/nangate45nm/nangate45nm.v
+
+## Read scanned netlist (ex: netlist file name = paulin_scan.v)
+read_netlist _b14.v
+
+# Create the simulation model of the target module for ATPG
+# (ex: module name = paulin)
+run_build_model b14
+
+# Design rule check (ex: protocol file name = paulin.spf)
+run_drc b14.spf
+
+# Add Faults
+# add_faults -all
+
+# Write All Faults Information
+#report_faults -all > b14_all_Stack_Faults.flt
+
+for {set n 0} {$n <= 663} {incr n} {
+  if { [expr {$n % 100}] == 0 } {
+    puts stderr  "Now = $n Pattern"
+    flush stderr
+  }
+  # Set Patterns
+  set_patterns -external Partitioning_Stil/b14_pn${n}.stil
+
+  # Add Faults 
+  add_faults -all
+
+  # Run simulation
+  run_simulation -sequential -update
+  run_fault_sim -detected_pattern_storage
+
+  # Report Faults 
+  set_faults -fault_coverage
+  report_faults -summary
+  report_summaries cpu_usage
+
+  # Write Fault List
+  write_faults Partitioning_Flt/b14_pn${n}.flt -all -replace
+  #write_faults Partitioning_Flt_ND/b14_pn${n}_ND.flt -class ND -replace
+
+  #Remove Faults
+  remove_faults -all
+}
+
+#Report Setting
+report_setting
+
+quit
+

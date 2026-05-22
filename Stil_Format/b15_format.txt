@@ -1,0 +1,452 @@
+format1 = """
+STIL 1.0 { Design 2005; }
+Header {
+   Title "  TetraMAX(R)  R-2020.09-SP4-i20210302_145352 STIL output";
+   Date "Wed Oct  9 19:49:08 2024";
+   Source "Minimal STIL for design `b15'";
+   History {
+      Ann {*  Incoming_Date "Mon Jul  1 17:33:46 2024"  *}
+      Ann {*  Incoming_Src "DFT Compiler U-2022.12-SP4"  *}
+      Ann {*     Uncollapsed Stuck Fault Summary Report *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* fault class                     code   #faults *}
+      Ann {* ------------------------------  ----  --------- *}
+      Ann {* Detected                         DT      30687 *}
+      Ann {*   detected_by_simulation         DS     (27317) *}
+      Ann {*   detected_by_implication        DI      (3370) *}
+      Ann {* Possibly detected                PT          3 *}
+      Ann {*   not_analyzed-pos_detected      NP         (3) *}
+      Ann {* Undetectable                     UD        533 *}
+      Ann {*   undetectable-tied              UT        (84) *}
+      Ann {*   undetectable-redundant         UR       (449) *}
+      Ann {* ATPG untestable                  AU        444 *}
+      Ann {*   atpg_untestable-not_detected   AN       (444) *}
+      Ann {* Not detected                     ND        295 *}
+      Ann {*   not-controlled                 NC        (16) *}
+      Ann {*   not-observed                   NO       (279) *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* total faults                             31962 *}
+      Ann {* test coverage                            97.64% *}
+      Ann {* fault coverage                           96.02% *}
+      Ann {* ATPG effectiveness                       99.07% *}
+      Ann {* ----------------------------------------------- *}
+      Ann {*  *}
+      Ann {*            Pattern Summary Report *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* #internal patterns                        5499 *}
+      Ann {*     #basic_scan patterns                  5499 *}
+      Ann {* ----------------------------------------------- *}
+      Ann {*  *}
+      Ann {* rule  severity  #fails  description *}
+      Ann {* ----  --------  ------  --------------------------------- *}
+      Ann {* N21   warning        1  unsupported UDP entry *}
+      Ann {* B9    warning        1  undriven module internal net *}
+      Ann {* V14   warning        1  missing state *}
+      Ann {*  *}
+      Ann {* clock_name        off  usage *}
+      Ann {* ----------------  ---  -------------------------- *}
+      Ann {* CLOCK              0   master shift  *}
+      Ann {* RESET              0    *}
+      Ann {*  *}
+      Ann {* port_name         constraint_value *}
+      Ann {* ----------------  --------------- *}
+      Ann {* RESET               0 *}
+      Ann {* test_se             0 *}
+      Ann {*  *}
+      Ann {* There are no equivalent pins *}
+      Ann {* There are no net connections *}
+      Ann {* top_module_name = b15 *}
+      Ann {* Unified STIL Flow *}
+      Ann {* serial_flag = 0 *}
+      Ann {* PSDF = NO_PSD_FILE *}
+      Ann {* PSDS = 0 *}
+      Ann {* PSDA = #5499#1#0/0 *}
+      Ann {* internal_clock = CLOCK *}
+   }
+}
+Signals {
+   "Datai[31]" In; "Datai[30]" In; "Datai[29]" In; "Datai[28]" In; "Datai[27]" In;
+   "Datai[26]" In; "Datai[25]" In; "Datai[24]" In; "Datai[23]" In; "Datai[22]" In;
+   "Datai[21]" In; "Datai[20]" In; "Datai[19]" In; "Datai[18]" In; "Datai[17]" In;
+   "Datai[16]" In; "Datai[15]" In; "Datai[14]" In; "Datai[13]" In; "Datai[12]" In;
+   "Datai[11]" In; "Datai[10]" In; "Datai[9]" In; "Datai[8]" In; "Datai[7]" In; "Datai[6]" In;
+   "Datai[5]" In; "Datai[4]" In; "Datai[3]" In; "Datai[2]" In; "Datai[1]" In; "Datai[0]" In;
+   "CLOCK" In; "NA_n" In; "BS16_n" In; "READY_n" In; "HOLD" In; "RESET" In; "test_si" In
+   { ScanIn; } "test_se" In; "BE_n[3]" Out; "BE_n[2]" Out; "BE_n[1]" Out; "BE_n[0]" Out;
+   "Address[29]" Out; "Address[28]" Out; "Address[27]" Out; "Address[26]" Out; "Address[25]" Out;
+   "Address[24]" Out; "Address[23]" Out; "Address[22]" Out; "Address[21]" Out; "Address[20]" Out;
+   "Address[19]" Out; "Address[18]" Out; "Address[17]" Out; "Address[16]" Out; "Address[15]" Out;
+   "Address[14]" Out; "Address[13]" Out; "Address[12]" Out; "Address[11]" Out; "Address[10]" Out;
+   "Address[9]" Out; "Address[8]" Out; "Address[7]" Out; "Address[6]" Out; "Address[5]" Out;
+   "Address[4]" Out; "Address[3]" Out; "Address[2]" Out; "Address[1]" Out; "Address[0]" Out;
+   "W_R_n" Out; "D_C_n" Out; "M_IO_n" Out; "ADS_n" Out; "Datao[31]" Out; "Datao[30]" Out;
+   "Datao[29]" Out; "Datao[28]" Out; "Datao[27]" Out; "Datao[26]" Out; "Datao[25]" Out;
+   "Datao[24]" Out; "Datao[23]" Out; "Datao[22]" Out; "Datao[21]" Out; "Datao[20]" Out;
+   "Datao[19]" Out; "Datao[18]" Out; "Datao[17]" Out; "Datao[16]" Out; "Datao[15]" Out;
+   "Datao[14]" Out; "Datao[13]" Out; "Datao[12]" Out; "Datao[11]" Out; "Datao[10]" Out;
+   "Datao[9]" Out; "Datao[8]" Out; "Datao[7]" Out; "Datao[6]" Out; "Datao[5]" Out;
+   "Datao[4]" Out; "Datao[3]" Out; "Datao[2]" Out; "Datao[1]" Out; "Datao[0]" Out;
+   "test_so" Out { ScanOut; }
+}
+SignalGroups {
+   "_pi" = '"BS16_n" + "CLOCK" + "Datai[0]" + "Datai[10]" + "Datai[11]" + "Datai[12]"
+   + "Datai[13]" + "Datai[14]" + "Datai[15]" + "Datai[16]" + "Datai[17]" + "Datai[18]"
+   + "Datai[19]" + "Datai[1]" + "Datai[20]" + "Datai[21]" + "Datai[22]" + "Datai[23]"
+   + "Datai[24]" + "Datai[25]" + "Datai[26]" + "Datai[27]" + "Datai[28]" + "Datai[29]"
+   + "Datai[2]" + "Datai[30]" + "Datai[31]" + "Datai[3]" + "Datai[4]" + "Datai[5]"
+   + "Datai[6]" + "Datai[7]" + "Datai[8]" + "Datai[9]" + "HOLD" + "NA_n" + "READY_n"
+   + "RESET" + "test_si" + "test_se"'; // #signals=40
+   "_in" = '"Datai[31]" + "Datai[30]" + "Datai[29]" + "Datai[28]" + "Datai[27]" + "Datai[26]"
+   + "Datai[25]" + "Datai[24]" + "Datai[23]" + "Datai[22]" + "Datai[21]" + "Datai[20]"
+   + "Datai[19]" + "Datai[18]" + "Datai[17]" + "Datai[16]" + "Datai[15]" + "Datai[14]"
+   + "Datai[13]" + "Datai[12]" + "Datai[11]" + "Datai[10]" + "Datai[9]" + "Datai[8]"
+   + "Datai[7]" + "Datai[6]" + "Datai[5]" + "Datai[4]" + "Datai[3]" + "Datai[2]" + "Datai[1]"
+   + "Datai[0]" + "CLOCK" + "NA_n" + "BS16_n" + "READY_n" + "HOLD" + "RESET" + "test_si"
+   + "test_se"'; // #signals=40
+   "all_inputs" = '"BS16_n" + "CLOCK" + "Datai[0]" + "Datai[10]" + "Datai[11]" + "Datai[12]"
+   + "Datai[13]" + "Datai[14]" + "Datai[15]" + "Datai[16]" + "Datai[17]" + "Datai[18]"
+   + "Datai[19]" + "Datai[1]" + "Datai[20]" + "Datai[21]" + "Datai[22]" + "Datai[23]"
+   + "Datai[24]" + "Datai[25]" + "Datai[26]" + "Datai[27]" + "Datai[28]" + "Datai[29]"
+   + "Datai[2]" + "Datai[30]" + "Datai[31]" + "Datai[3]" + "Datai[4]" + "Datai[5]"
+   + "Datai[6]" + "Datai[7]" + "Datai[8]" + "Datai[9]" + "HOLD" + "NA_n" + "READY_n"
+   + "RESET" + "test_si" + "test_se"'; // #signals=40
+   "_po" = '"ADS_n" + "Address[0]" + "Address[10]" + "Address[11]" + "Address[12]"
+   + "Address[13]" + "Address[14]" + "Address[15]" + "Address[16]" + "Address[17]"
+   + "Address[18]" + "Address[19]" + "Address[1]" + "Address[20]" + "Address[21]"
+   + "Address[22]" + "Address[23]" + "Address[24]" + "Address[25]" + "Address[26]"
+   + "Address[27]" + "Address[28]" + "Address[29]" + "Address[2]" + "Address[3]" + "Address[4]"
+   + "Address[5]" + "Address[6]" + "Address[7]" + "Address[8]" + "Address[9]" + "BE_n[0]"
+   + "BE_n[1]" + "BE_n[2]" + "BE_n[3]" + "D_C_n" + "Datao[0]" + "Datao[10]" + "Datao[11]"
+   + "Datao[12]" + "Datao[13]" + "Datao[14]" + "Datao[15]" + "Datao[16]" + "Datao[17]"
+   + "Datao[18]" + "Datao[19]" + "Datao[1]" + "Datao[20]" + "Datao[21]" + "Datao[22]"
+   + "Datao[23]" + "Datao[24]" + "Datao[25]" + "Datao[26]" + "Datao[27]" + "Datao[28]"
+   + "Datao[29]" + "Datao[2]" + "Datao[30]" + "Datao[31]" + "Datao[3]" + "Datao[4]"
+   + "Datao[5]" + "Datao[6]" + "Datao[7]" + "Datao[8]" + "Datao[9]" + "M_IO_n" + "W_R_n"
+   + "test_so"'; // #signals=71
+   "_si" = '"test_si"' { ScanIn; } // #signals=1
+   "all_outputs" = '"ADS_n" + "Address[0]" + "Address[10]" + "Address[11]" + "Address[12]"
+   + "Address[13]" + "Address[14]" + "Address[15]" + "Address[16]" + "Address[17]"
+   + "Address[18]" + "Address[19]" + "Address[1]" + "Address[20]" + "Address[21]"
+   + "Address[22]" + "Address[23]" + "Address[24]" + "Address[25]" + "Address[26]"
+   + "Address[27]" + "Address[28]" + "Address[29]" + "Address[2]" + "Address[3]" + "Address[4]"
+   + "Address[5]" + "Address[6]" + "Address[7]" + "Address[8]" + "Address[9]" + "BE_n[0]"
+   + "BE_n[1]" + "BE_n[2]" + "BE_n[3]" + "D_C_n" + "Datao[0]" + "Datao[10]" + "Datao[11]"
+   + "Datao[12]" + "Datao[13]" + "Datao[14]" + "Datao[15]" + "Datao[16]" + "Datao[17]"
+   + "Datao[18]" + "Datao[19]" + "Datao[1]" + "Datao[20]" + "Datao[21]" + "Datao[22]"
+   + "Datao[23]" + "Datao[24]" + "Datao[25]" + "Datao[26]" + "Datao[27]" + "Datao[28]"
+   + "Datao[29]" + "Datao[2]" + "Datao[30]" + "Datao[31]" + "Datao[3]" + "Datao[4]"
+   + "Datao[5]" + "Datao[6]" + "Datao[7]" + "Datao[8]" + "Datao[9]" + "M_IO_n" + "W_R_n"
+   + "test_so"'; // #signals=71
+   "all_ports" = '"all_inputs" + "all_outputs"'; // #signals=111
+   "_clk" = '"CLOCK" + "RESET"'; // #signals=2
+   "_so" = '"test_so"' { ScanOut; } // #signals=1
+   "_out" = '"BE_n[3]" + "BE_n[2]" + "BE_n[1]" + "BE_n[0]" + "Address[29]" + "Address[28]"
+   + "Address[27]" + "Address[26]" + "Address[25]" + "Address[24]" + "Address[23]"
+   + "Address[22]" + "Address[21]" + "Address[20]" + "Address[19]" + "Address[18]"
+   + "Address[17]" + "Address[16]" + "Address[15]" + "Address[14]" + "Address[13]"
+   + "Address[12]" + "Address[11]" + "Address[10]" + "Address[9]" + "Address[8]" + "Address[7]"
+   + "Address[6]" + "Address[5]" + "Address[4]" + "Address[3]" + "Address[2]" + "Address[1]"
+   + "Address[0]" + "W_R_n" + "D_C_n" + "M_IO_n" + "ADS_n" + "Datao[31]" + "Datao[30]"
+   + "Datao[29]" + "Datao[28]" + "Datao[27]" + "Datao[26]" + "Datao[25]" + "Datao[24]"
+   + "Datao[23]" + "Datao[22]" + "Datao[21]" + "Datao[20]" + "Datao[19]" + "Datao[18]"
+   + "Datao[17]" + "Datao[16]" + "Datao[15]" + "Datao[14]" + "Datao[13]" + "Datao[12]"
+   + "Datao[11]" + "Datao[10]" + "Datao[9]" + "Datao[8]" + "Datao[7]" + "Datao[6]"
+   + "Datao[5]" + "Datao[4]" + "Datao[3]" + "Datao[2]" + "Datao[1]" + "Datao[0]" + "test_so"';
+   // #signals=71
+}
+Timing {
+   WaveformTable "_allclock_launch_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "CLOCK" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "RESET" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_multiclock_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "CLOCK" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "RESET" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_allclock_launch_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "CLOCK" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "RESET" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_allclock_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "CLOCK" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "RESET" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_default_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "CLOCK" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "RESET" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+}
+ScanStructures {
+   ScanChain "1" {
+      ScanLength 417;
+      ScanIn "test_si";
+      ScanOut "test_so";
+      ScanInversion 0;
+      ScanCells "b15.ADS_n_reg.SI" ! "b15.Address_reg_0_.SI" ! "b15.Address_reg_1_.SI" ! 
+      "b15.Address_reg_2_.SI" ! "b15.Address_reg_3_.SI" ! "b15.Address_reg_4_.SI" ! 
+      "b15.Address_reg_5_.SI" ! "b15.Address_reg_6_.SI" ! "b15.Address_reg_7_.SI" ! 
+      "b15.Address_reg_8_.SI" ! "b15.Address_reg_9_.SI" ! "b15.Address_reg_10_.SI" ! 
+      "b15.Address_reg_11_.SI" ! "b15.Address_reg_12_.SI" ! "b15.Address_reg_13_.SI" ! 
+      "b15.Address_reg_14_.SI" ! "b15.Address_reg_15_.SI" ! "b15.Address_reg_16_.SI" ! 
+      "b15.Address_reg_17_.SI" ! "b15.Address_reg_18_.SI" ! "b15.Address_reg_19_.SI" ! 
+      "b15.Address_reg_20_.SI" ! "b15.Address_reg_21_.SI" ! "b15.Address_reg_22_.SI" ! 
+      "b15.Address_reg_23_.SI" ! "b15.Address_reg_24_.SI" ! "b15.Address_reg_25_.SI" ! 
+      "b15.Address_reg_26_.SI" ! "b15.Address_reg_27_.SI" ! "b15.Address_reg_28_.SI" ! 
+      "b15.Address_reg_29_.SI" ! "b15.BE_n_reg_0_.SI" ! "b15.BE_n_reg_1_.SI" ! "b15.BE_n_reg_2_.SI" 
+      ! "b15.BE_n_reg_3_.SI" ! "b15.ByteEnable_reg_0_.SI" "b15.ByteEnable_reg_1_.SI" 
+      "b15.ByteEnable_reg_2_.SI" "b15.ByteEnable_reg_3_.SI" "b15.CodeFetch_reg.SI" 
+      "b15.D_C_n_reg.SI" ! "b15.DataWidth_reg_0_.SI" ! "b15.DataWidth_reg_1_.SI" ! 
+      "b15.Datao_reg_0_.SI" ! "b15.Datao_reg_1_.SI" ! "b15.Datao_reg_2_.SI" ! "b15.Datao_reg_3_.SI" 
+      ! "b15.Datao_reg_4_.SI" ! "b15.Datao_reg_5_.SI" ! "b15.Datao_reg_6_.SI" ! 
+      "b15.Datao_reg_7_.SI" ! "b15.Datao_reg_8_.SI" ! "b15.Datao_reg_9_.SI" ! 
+      "b15.Datao_reg_10_.SI" ! "b15.Datao_reg_11_.SI" ! "b15.Datao_reg_12_.SI" ! 
+      "b15.Datao_reg_13_.SI" ! "b15.Datao_reg_14_.SI" ! "b15.Datao_reg_15_.SI" ! 
+      "b15.Datao_reg_16_.SI" ! "b15.Datao_reg_17_.SI" ! "b15.Datao_reg_18_.SI" ! 
+      "b15.Datao_reg_19_.SI" ! "b15.Datao_reg_20_.SI" ! "b15.Datao_reg_21_.SI" ! 
+      "b15.Datao_reg_22_.SI" ! "b15.Datao_reg_23_.SI" ! "b15.Datao_reg_24_.SI" ! 
+      "b15.Datao_reg_25_.SI" ! "b15.Datao_reg_26_.SI" ! "b15.Datao_reg_27_.SI" ! 
+      "b15.Datao_reg_28_.SI" ! "b15.Datao_reg_29_.SI" ! "b15.Datao_reg_30_.SI" ! 
+      "b15.EAX_reg_0_.SI" ! "b15.EAX_reg_1_.SI" ! "b15.EAX_reg_2_.SI" ! "b15.EAX_reg_3_.SI" ! 
+      "b15.EAX_reg_4_.SI" ! "b15.EAX_reg_5_.SI" ! "b15.EAX_reg_6_.SI" ! "b15.EAX_reg_7_.SI" ! 
+      "b15.EAX_reg_8_.SI" ! "b15.EAX_reg_9_.SI" ! "b15.EAX_reg_10_.SI" ! "b15.EAX_reg_11_.SI" ! 
+      "b15.EAX_reg_12_.SI" ! "b15.EAX_reg_13_.SI" ! "b15.EAX_reg_14_.SI" ! "b15.EAX_reg_15_.SI" ! 
+      "b15.EAX_reg_16_.SI" ! "b15.EAX_reg_17_.SI" ! "b15.EAX_reg_18_.SI" ! "b15.EAX_reg_19_.SI" ! 
+      "b15.EAX_reg_20_.SI" ! "b15.EAX_reg_21_.SI" ! "b15.EAX_reg_22_.SI" ! "b15.EAX_reg_23_.SI" ! 
+      "b15.EAX_reg_24_.SI" ! "b15.EAX_reg_25_.SI" ! "b15.EAX_reg_26_.SI" ! "b15.EAX_reg_27_.SI" ! 
+      "b15.EAX_reg_28_.SI" ! "b15.EAX_reg_29_.SI" ! "b15.EAX_reg_30_.SI" ! "b15.EAX_reg_31_.SI" 
+      "b15.EBX_reg_0_.SI" ! "b15.EBX_reg_1_.SI" ! "b15.EBX_reg_2_.SI" ! "b15.EBX_reg_3_.SI" ! 
+      "b15.EBX_reg_4_.SI" ! "b15.EBX_reg_5_.SI" ! "b15.EBX_reg_6_.SI" ! "b15.EBX_reg_7_.SI" ! 
+      "b15.EBX_reg_8_.SI" ! "b15.EBX_reg_9_.SI" ! "b15.EBX_reg_10_.SI" ! "b15.EBX_reg_11_.SI" ! 
+      "b15.EBX_reg_12_.SI" ! "b15.EBX_reg_13_.SI" "b15.EBX_reg_14_.SI" "b15.EBX_reg_15_.SI" 
+      "b15.EBX_reg_16_.SI" "b15.EBX_reg_17_.SI" "b15.EBX_reg_18_.SI" "b15.EBX_reg_19_.SI" 
+      "b15.EBX_reg_20_.SI" "b15.EBX_reg_21_.SI" "b15.EBX_reg_22_.SI" "b15.EBX_reg_23_.SI" 
+      "b15.EBX_reg_24_.SI" "b15.EBX_reg_25_.SI" "b15.EBX_reg_26_.SI" "b15.EBX_reg_27_.SI" 
+      "b15.EBX_reg_28_.SI" "b15.EBX_reg_29_.SI" "b15.EBX_reg_30_.SI" "b15.EBX_reg_31_.SI" ! 
+      "b15.Flush_reg.SI" ! "b15.InstAddrPointer_reg_0_.SI" ! "b15.InstAddrPointer_reg_1_.SI" ! 
+      "b15.InstAddrPointer_reg_2_.SI" ! "b15.InstAddrPointer_reg_3_.SI" ! 
+      "b15.InstAddrPointer_reg_4_.SI" ! "b15.InstAddrPointer_reg_5_.SI" ! 
+      "b15.InstAddrPointer_reg_6_.SI" ! "b15.InstAddrPointer_reg_7_.SI" ! 
+      "b15.InstAddrPointer_reg_8_.SI" ! "b15.InstAddrPointer_reg_9_.SI" ! 
+      "b15.InstAddrPointer_reg_10_.SI" ! "b15.InstAddrPointer_reg_11_.SI" ! 
+      "b15.InstAddrPointer_reg_12_.SI" ! "b15.InstAddrPointer_reg_13_.SI" ! 
+      "b15.InstAddrPointer_reg_14_.SI" ! "b15.InstAddrPointer_reg_15_.SI" ! 
+      "b15.InstAddrPointer_reg_16_.SI" ! "b15.InstAddrPointer_reg_17_.SI" ! 
+      "b15.InstAddrPointer_reg_18_.SI" ! "b15.InstAddrPointer_reg_19_.SI" ! 
+      "b15.InstAddrPointer_reg_20_.SI" ! "b15.InstAddrPointer_reg_21_.SI" ! 
+      "b15.InstAddrPointer_reg_22_.SI" ! "b15.InstAddrPointer_reg_23_.SI" ! 
+      "b15.InstAddrPointer_reg_24_.SI" ! "b15.InstAddrPointer_reg_25_.SI" ! 
+      "b15.InstAddrPointer_reg_26_.SI" ! "b15.InstAddrPointer_reg_27_.SI" ! 
+      "b15.InstAddrPointer_reg_28_.SI" ! "b15.InstAddrPointer_reg_29_.SI" ! 
+      "b15.InstAddrPointer_reg_30_.SI" ! "b15.InstAddrPointer_reg_31_.SI" ! 
+      "b15.InstQueueRd_Addr_reg_0_.SI" "b15.InstQueueRd_Addr_reg_1_.SI" ! 
+      "b15.InstQueueRd_Addr_reg_2_.SI" "b15.InstQueueRd_Addr_reg_3_.SI" 
+      "b15.InstQueueRd_Addr_reg_4_.SI" "b15.InstQueueWr_Addr_reg_0_.SI" 
+      "b15.InstQueueWr_Addr_reg_1_.SI" ! "b15.InstQueueWr_Addr_reg_2_.SI" ! 
+      "b15.InstQueueWr_Addr_reg_3_.SI" ! "b15.InstQueue_reg_0__0_.SI" "b15.InstQueue_reg_0__1_.SI" 
+      "b15.InstQueue_reg_0__2_.SI" "b15.InstQueue_reg_0__3_.SI" "b15.InstQueue_reg_0__4_.SI" 
+      "b15.InstQueue_reg_0__5_.SI" "b15.InstQueue_reg_0__6_.SI" "b15.InstQueue_reg_0__7_.SI" 
+      "b15.InstQueue_reg_1__0_.SI" ! "b15.InstQueue_reg_1__1_.SI" ! "b15.InstQueue_reg_1__2_.SI" ! 
+      "b15.InstQueue_reg_1__3_.SI" ! "b15.InstQueue_reg_1__4_.SI" ! "b15.InstQueue_reg_1__5_.SI" ! 
+      "b15.InstQueue_reg_1__6_.SI" ! "b15.InstQueue_reg_1__7_.SI" ! "b15.InstQueue_reg_2__0_.SI" ! 
+      "b15.InstQueue_reg_2__1_.SI" ! "b15.InstQueue_reg_2__2_.SI" ! "b15.InstQueue_reg_2__3_.SI" ! 
+      "b15.InstQueue_reg_2__4_.SI" ! "b15.InstQueue_reg_2__5_.SI" ! "b15.InstQueue_reg_2__6_.SI" ! 
+      "b15.InstQueue_reg_2__7_.SI" ! "b15.InstQueue_reg_3__0_.SI" "b15.InstQueue_reg_3__1_.SI" 
+      "b15.InstQueue_reg_3__2_.SI" "b15.InstQueue_reg_3__3_.SI" "b15.InstQueue_reg_3__4_.SI" 
+      "b15.InstQueue_reg_3__5_.SI" "b15.InstQueue_reg_3__6_.SI" "b15.InstQueue_reg_3__7_.SI" 
+      "b15.InstQueue_reg_4__0_.SI" "b15.InstQueue_reg_4__1_.SI" "b15.InstQueue_reg_4__2_.SI" 
+      "b15.InstQueue_reg_4__3_.SI" "b15.InstQueue_reg_4__4_.SI" "b15.InstQueue_reg_4__5_.SI" 
+      "b15.InstQueue_reg_4__6_.SI" "b15.InstQueue_reg_4__7_.SI" "b15.InstQueue_reg_5__0_.SI" 
+      "b15.InstQueue_reg_5__1_.SI" "b15.InstQueue_reg_5__2_.SI" "b15.InstQueue_reg_5__3_.SI" 
+      "b15.InstQueue_reg_5__4_.SI" "b15.InstQueue_reg_5__5_.SI" "b15.InstQueue_reg_5__6_.SI" 
+      "b15.InstQueue_reg_5__7_.SI" "b15.InstQueue_reg_6__0_.SI" "b15.InstQueue_reg_6__1_.SI" 
+      "b15.InstQueue_reg_6__2_.SI" "b15.InstQueue_reg_6__3_.SI" "b15.InstQueue_reg_6__4_.SI" 
+      "b15.InstQueue_reg_6__5_.SI" "b15.InstQueue_reg_6__6_.SI" "b15.InstQueue_reg_6__7_.SI" 
+      "b15.InstQueue_reg_7__0_.SI" ! "b15.InstQueue_reg_7__1_.SI" ! "b15.InstQueue_reg_7__2_.SI" ! 
+      "b15.InstQueue_reg_7__3_.SI" ! "b15.InstQueue_reg_7__4_.SI" ! "b15.InstQueue_reg_7__5_.SI" ! 
+      "b15.InstQueue_reg_7__6_.SI" ! "b15.InstQueue_reg_7__7_.SI" ! "b15.InstQueue_reg_8__0_.SI" ! 
+      "b15.InstQueue_reg_8__1_.SI" ! "b15.InstQueue_reg_8__2_.SI" ! "b15.InstQueue_reg_8__3_.SI" ! 
+      "b15.InstQueue_reg_8__4_.SI" ! "b15.InstQueue_reg_8__5_.SI" ! "b15.InstQueue_reg_8__6_.SI" ! 
+      "b15.InstQueue_reg_8__7_.SI" ! "b15.InstQueue_reg_9__0_.SI" "b15.InstQueue_reg_9__1_.SI" 
+      "b15.InstQueue_reg_9__2_.SI" "b15.InstQueue_reg_9__3_.SI" "b15.InstQueue_reg_9__4_.SI" 
+      "b15.InstQueue_reg_9__5_.SI" "b15.InstQueue_reg_9__6_.SI" "b15.InstQueue_reg_9__7_.SI" 
+      "b15.InstQueue_reg_10__0_.SI" "b15.InstQueue_reg_10__1_.SI" "b15.InstQueue_reg_10__2_.SI" 
+      "b15.InstQueue_reg_10__3_.SI" "b15.InstQueue_reg_10__4_.SI" "b15.InstQueue_reg_10__5_.SI" 
+      "b15.InstQueue_reg_10__6_.SI" "b15.InstQueue_reg_10__7_.SI" "b15.InstQueue_reg_11__0_.SI" ! 
+      "b15.InstQueue_reg_11__1_.SI" ! "b15.InstQueue_reg_11__2_.SI" ! "b15.InstQueue_reg_11__3_.SI" 
+      ! "b15.InstQueue_reg_11__4_.SI" ! "b15.InstQueue_reg_11__5_.SI" ! 
+      "b15.InstQueue_reg_11__6_.SI" ! "b15.InstQueue_reg_11__7_.SI" ! "b15.InstQueue_reg_12__0_.SI" 
+      ! "b15.InstQueue_reg_12__1_.SI" ! "b15.InstQueue_reg_12__2_.SI" ! 
+      "b15.InstQueue_reg_12__3_.SI" ! "b15.InstQueue_reg_12__4_.SI" ! "b15.InstQueue_reg_12__5_.SI" 
+      ! "b15.InstQueue_reg_12__6_.SI" ! "b15.InstQueue_reg_12__7_.SI" ! 
+      "b15.InstQueue_reg_13__0_.SI" ! "b15.InstQueue_reg_13__1_.SI" ! "b15.InstQueue_reg_13__2_.SI" 
+      ! "b15.InstQueue_reg_13__3_.SI" ! "b15.InstQueue_reg_13__4_.SI" ! 
+      "b15.InstQueue_reg_13__5_.SI" ! "b15.InstQueue_reg_13__6_.SI" ! "b15.InstQueue_reg_13__7_.SI" 
+      ! "b15.InstQueue_reg_14__0_.SI" ! "b15.InstQueue_reg_14__1_.SI" ! 
+      "b15.InstQueue_reg_14__2_.SI" ! "b15.InstQueue_reg_14__3_.SI" ! "b15.InstQueue_reg_14__4_.SI" 
+      ! "b15.InstQueue_reg_14__5_.SI" ! "b15.InstQueue_reg_14__6_.SI" ! 
+      "b15.InstQueue_reg_14__7_.SI" ! "b15.InstQueue_reg_15__0_.SI" "b15.InstQueue_reg_15__1_.SI" 
+      "b15.InstQueue_reg_15__2_.SI" "b15.InstQueue_reg_15__3_.SI" "b15.InstQueue_reg_15__4_.SI" 
+      "b15.InstQueue_reg_15__5_.SI" "b15.InstQueue_reg_15__6_.SI" "b15.InstQueue_reg_15__7_.SI" 
+      "b15.M_IO_n_reg.SI" ! "b15.MemoryFetch_reg.SI" "b15.More_reg.SI" 
+      "b15.PhyAddrPointer_reg_0_.SI" "b15.PhyAddrPointer_reg_1_.SI" ! 
+      "b15.PhyAddrPointer_reg_2_.SI" ! "b15.PhyAddrPointer_reg_3_.SI" ! 
+      "b15.PhyAddrPointer_reg_4_.SI" ! "b15.PhyAddrPointer_reg_5_.SI" ! 
+      "b15.PhyAddrPointer_reg_6_.SI" ! "b15.PhyAddrPointer_reg_7_.SI" ! 
+      "b15.PhyAddrPointer_reg_8_.SI" ! "b15.PhyAddrPointer_reg_9_.SI" ! 
+      "b15.PhyAddrPointer_reg_10_.SI" ! "b15.PhyAddrPointer_reg_11_.SI" ! 
+      "b15.PhyAddrPointer_reg_12_.SI" ! "b15.PhyAddrPointer_reg_13_.SI" ! 
+      "b15.PhyAddrPointer_reg_14_.SI" ! "b15.PhyAddrPointer_reg_15_.SI" ! 
+      "b15.PhyAddrPointer_reg_16_.SI" ! "b15.PhyAddrPointer_reg_17_.SI" ! 
+      "b15.PhyAddrPointer_reg_18_.SI" ! "b15.PhyAddrPointer_reg_19_.SI" ! 
+      "b15.PhyAddrPointer_reg_20_.SI" ! "b15.PhyAddrPointer_reg_21_.SI" ! 
+      "b15.PhyAddrPointer_reg_22_.SI" ! "b15.PhyAddrPointer_reg_23_.SI" ! 
+      "b15.PhyAddrPointer_reg_24_.SI" ! "b15.PhyAddrPointer_reg_25_.SI" ! 
+      "b15.PhyAddrPointer_reg_26_.SI" ! "b15.PhyAddrPointer_reg_27_.SI" ! 
+      "b15.PhyAddrPointer_reg_28_.SI" ! "b15.PhyAddrPointer_reg_29_.SI" ! 
+      "b15.PhyAddrPointer_reg_30_.SI" ! "b15.PhyAddrPointer_reg_31_.SI" ! "b15.ReadRequest_reg.SI" 
+      "b15.RequestPending_reg.SI" "b15.State2_reg_0_.SI" "b15.State2_reg_1_.SI" ! 
+      "b15.State2_reg_2_.SI" "b15.State2_reg_3_.SI" ! "b15.StateBS16_reg.SI" "b15.State_reg_0_.SI" 
+      ! "b15.State_reg_1_.SI" "b15.State_reg_2_.SI" ! "b15.W_R_n_reg.SI" ! "b15.lWord_reg_0_.SI" 
+      "b15.lWord_reg_1_.SI" "b15.lWord_reg_2_.SI" "b15.lWord_reg_3_.SI" "b15.lWord_reg_4_.SI" 
+      "b15.lWord_reg_5_.SI" "b15.lWord_reg_6_.SI" "b15.lWord_reg_7_.SI" "b15.lWord_reg_8_.SI" 
+      "b15.lWord_reg_9_.SI" "b15.lWord_reg_10_.SI" "b15.lWord_reg_11_.SI" "b15.lWord_reg_12_.SI" 
+      "b15.lWord_reg_13_.SI" "b15.lWord_reg_14_.SI" "b15.lWord_reg_15_.SI" "b15.rEIP_reg_0_.SI" ! 
+      "b15.rEIP_reg_1_.SI" ! "b15.rEIP_reg_2_.SI" ! "b15.rEIP_reg_3_.SI" ! "b15.rEIP_reg_4_.SI" ! 
+      "b15.rEIP_reg_5_.SI" ! "b15.rEIP_reg_6_.SI" ! "b15.rEIP_reg_7_.SI" ! "b15.rEIP_reg_8_.SI" ! 
+      "b15.rEIP_reg_9_.SI" ! "b15.rEIP_reg_10_.SI" ! "b15.rEIP_reg_11_.SI" ! "b15.rEIP_reg_12_.SI" 
+      ! "b15.rEIP_reg_13_.SI" ! "b15.rEIP_reg_14_.SI" ! "b15.rEIP_reg_15_.SI" ! 
+      "b15.rEIP_reg_16_.SI" ! "b15.rEIP_reg_17_.SI" ! "b15.rEIP_reg_18_.SI" ! "b15.rEIP_reg_19_.SI" 
+      ! "b15.rEIP_reg_20_.SI" ! "b15.rEIP_reg_21_.SI" ! "b15.rEIP_reg_22_.SI" ! 
+      "b15.rEIP_reg_23_.SI" ! "b15.rEIP_reg_24_.SI" ! "b15.rEIP_reg_25_.SI" ! "b15.rEIP_reg_26_.SI" 
+      ! "b15.rEIP_reg_27_.SI" ! "b15.rEIP_reg_28_.SI" ! "b15.rEIP_reg_29_.SI" ! 
+      "b15.rEIP_reg_30_.SI" ! "b15.rEIP_reg_31_.SI" "b15.uWord_reg_0_.SI" ! "b15.uWord_reg_1_.SI" ! 
+      "b15.uWord_reg_2_.SI" ! "b15.uWord_reg_3_.SI" ! "b15.uWord_reg_4_.SI" ! "b15.uWord_reg_5_.SI" 
+      ! "b15.uWord_reg_6_.SI" ! "b15.uWord_reg_7_.SI" ! "b15.uWord_reg_8_.SI" ! 
+      "b15.uWord_reg_9_.SI" ! "b15.uWord_reg_10_.SI" ! "b15.uWord_reg_11_.SI" ! 
+      "b15.uWord_reg_12_.SI" ! "b15.uWord_reg_13_.SI" ! "b15.uWord_reg_14_.SI" ! ;
+      ScanMasterClock "CLOCK" ;
+   }
+}
+PatternBurst "_burst_" {
+   PatList { "_pattern_" {
+   }
+}}
+PatternExec {
+   PatternBurst "_burst_";
+}
+Procedures {
+   "multiclock_capture" {
+      W "_multiclock_capture_WFT_";
+      C { "all_inputs"=N0\r35 N 0NN; "all_outputs"=\r71 X ; }
+      F { "RESET"=0; "test_se"=0; }
+      V { "_pi"=\r40 # ; "_po"=\r71 # ; }
+   }
+   "allclock_capture" {
+      W "_allclock_capture_WFT_";
+      C { "all_inputs"=N0\r35 N 0NN; "all_outputs"=\r71 X ; }
+      F { "RESET"=0; "test_se"=0; }
+      V { "_pi"=\r40 # ; "_po"=\r71 # ; }
+   }
+   "allclock_launch" {
+      W "_allclock_launch_WFT_";
+      C { "all_inputs"=N0\r35 N 0NN; "all_outputs"=\r71 X ; }
+      F { "RESET"=0; "test_se"=0; }
+      V { "_pi"=\r40 # ; "_po"=\r71 # ; }
+   }
+   "allclock_launch_capture" {
+      W "_allclock_launch_capture_WFT_";
+      C { "all_inputs"=N0\r35 N 0NN; "all_outputs"=\r71 X ; }
+      F { "RESET"=0; "test_se"=0; }
+      V { "_pi"=\r40 # ; "_po"=\r71 # ; }
+   }
+   "load_unload" {
+      W "_default_WFT_";
+      C { "all_inputs"=N0\r35 N 0NN; "all_outputs"=\r71 X ; }
+      "Internal_scan_pre_shift": V { "test_se"=1; }
+      Shift {          W "_default_WFT_";
+         V { "_clk"=P0; "_si"=#; "_so"=#; }
+      }
+   }
+}
+MacroDefs {
+   "test_setup" {
+      W "_default_WFT_";
+      C { "all_inputs"=\r40 N ; "all_outputs"=\r71 X ; }
+      V { "CLOCK"=0; "RESET"=0; }
+      V { "test_se"=0; }
+   }
+}
+Pattern "_pattern_" {
+   W "_multiclock_capture_WFT_";
+   "precondition all Signals": C { "_pi"=\r40 0 ; "_po"=\r71 X ; }
+   Macro "test_setup";
+
+"""
+
+format2 = """
+   "end {total} unload": Call "load_unload" {{ 
+      "test_so"={test_so}; }}
+}}
+"""
+
+format3 = """
+"pattern {pattern_num}": Call "load_unload" {{
+      "test_si"={test_si}; }}
+   Call "multiclock_capture" {{ 
+      "_pi"={pi}; "_po"={po}; }}
+"""

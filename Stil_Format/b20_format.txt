@@ -1,0 +1,401 @@
+format1 = """
+STIL 1.0 { Design 2005; }
+Header {
+   Title "  TetraMAX(R)  R-2020.09-SP4-i20210302_145352 STIL output";
+   Date "Mon Jul  1 17:55:16 2024";
+   Source "Minimal STIL for design `b20'";
+   History {
+      Ann {*  Incoming_Date "Mon Jul  1 17:29:52 2024"  *}
+      Ann {*  Incoming_Src "DFT Compiler U-2022.12-SP4"  *}
+      Ann {*     Uncollapsed Stuck Fault Summary Report *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* fault class                     code   #faults *}
+      Ann {* ------------------------------  ----  --------- *}
+      Ann {* Detected                         DT      35865 *}
+      Ann {*   detected_by_simulation         DS     (32383) *}
+      Ann {*   detected_by_implication        DI      (3482) *}
+      Ann {* Possibly detected                PT       2928 *}
+      Ann {*   not_analyzed-pos_detected      NP      (2928) *}
+      Ann {* Undetectable                     UD        269 *}
+      Ann {*   undetectable-tied              UT       (118) *}
+      Ann {*   undetectable-blocked           UB        (17) *}
+      Ann {*   undetectable-redundant         UR       (134) *}
+      Ann {* ATPG untestable                  AU        457 *}
+      Ann {*   atpg_untestable-not_detected   AN       (457) *}
+      Ann {* Not detected                     ND       6875 *}
+      Ann {*   not-controlled                 NC      (1439) *}
+      Ann {*   not-observed                   NO      (5436) *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* total faults                             46394 *}
+      Ann {* test coverage                            80.93% *}
+      Ann {* fault coverage                           80.46% *}
+      Ann {* ATPG effectiveness                       82.03% *}
+      Ann {* ----------------------------------------------- *}
+      Ann {*  *}
+      Ann {*            Pattern Summary Report *}
+      Ann {* ----------------------------------------------- *}
+      Ann {* #internal patterns                        4961 *}
+      Ann {*     #basic_scan patterns                  4961 *}
+      Ann {* ----------------------------------------------- *}
+      Ann {*  *}
+      Ann {* rule  severity  #fails  description *}
+      Ann {* ----  --------  ------  --------------------------------- *}
+      Ann {* N21   warning        1  unsupported UDP entry *}
+      Ann {* B9    warning        1  undriven module internal net *}
+      Ann {* V14   warning        1  missing state *}
+      Ann {*  *}
+      Ann {* clock_name        off  usage *}
+      Ann {* ----------------  ---  -------------------------- *}
+      Ann {* clock              0   master shift  *}
+      Ann {* reset              0    *}
+      Ann {*  *}
+      Ann {* port_name         constraint_value *}
+      Ann {* ----------------  --------------- *}
+      Ann {* reset               0 *}
+      Ann {* test_se             0 *}
+      Ann {*  *}
+      Ann {* There are no equivalent pins *}
+      Ann {* There are no net connections *}
+      Ann {* top_module_name = b20 *}
+      Ann {* Unified STIL Flow *}
+      Ann {* serial_flag = 0 *}
+      Ann {* PSDF = NO_PSD_FILE *}
+      Ann {* PSDS = 0 *}
+      Ann {* PSDA = #4961#1#0/0 *}
+      Ann {* internal_clock = clock *}
+   }
+}
+Signals {
+   "clock" In; "reset" In; "si[31]" In; "si[30]" In; "si[29]" In; "si[28]" In; "si[27]" In;
+   "si[26]" In; "si[25]" In; "si[24]" In; "si[23]" In; "si[22]" In; "si[21]" In; "si[20]" In;
+   "si[19]" In; "si[18]" In; "si[17]" In; "si[16]" In; "si[15]" In; "si[14]" In; "si[13]" In;
+   "si[12]" In; "si[11]" In; "si[10]" In; "si[9]" In; "si[8]" In; "si[7]" In; "si[6]" In;
+   "si[5]" In; "si[4]" In; "si[3]" In; "si[2]" In; "si[1]" In; "si[0]" In; "test_si" In
+   { ScanIn; } "test_se" In; "so[19]" Out; "so[18]" Out; "so[17]" Out; "so[16]" Out;
+   "so[15]" Out; "so[14]" Out; "so[13]" Out; "so[12]" Out; "so[11]" Out; "so[10]" Out;
+   "so[9]" Out; "so[8]" Out; "so[7]" Out; "so[6]" Out; "so[5]" Out; "so[4]" Out; "so[3]" Out;
+   "so[2]" Out; "so[1]" Out; "so[0]" Out; "rd" Out; "wr" Out; "test_so" Out { ScanOut;
+   }
+}
+SignalGroups {
+   "_pi" = '"clock" + "reset" + "si[0]" + "si[10]" + "si[11]" + "si[12]" + "si[13]"
+   + "si[14]" + "si[15]" + "si[16]" + "si[17]" + "si[18]" + "si[19]" + "si[1]" + "si[20]"
+   + "si[21]" + "si[22]" + "si[23]" + "si[24]" + "si[25]" + "si[26]" + "si[27]" + "si[28]"
+   + "si[29]" + "si[2]" + "si[30]" + "si[31]" + "si[3]" + "si[4]" + "si[5]" + "si[6]"
+   + "si[7]" + "si[8]" + "si[9]" + "test_si" + "test_se"'; // #signals=36
+   "_in" = '"clock" + "reset" + "si[31]" + "si[30]" + "si[29]" + "si[28]" + "si[27]"
+   + "si[26]" + "si[25]" + "si[24]" + "si[23]" + "si[22]" + "si[21]" + "si[20]" + "si[19]"
+   + "si[18]" + "si[17]" + "si[16]" + "si[15]" + "si[14]" + "si[13]" + "si[12]" + "si[11]"
+   + "si[10]" + "si[9]" + "si[8]" + "si[7]" + "si[6]" + "si[5]" + "si[4]" + "si[3]"
+   + "si[2]" + "si[1]" + "si[0]" + "test_si" + "test_se"'; // #signals=36
+   "all_inputs" = '"clock" + "reset" + "si[0]" + "si[10]" + "si[11]" + "si[12]" + "si[13]"
+   + "si[14]" + "si[15]" + "si[16]" + "si[17]" + "si[18]" + "si[19]" + "si[1]" + "si[20]"
+   + "si[21]" + "si[22]" + "si[23]" + "si[24]" + "si[25]" + "si[26]" + "si[27]" + "si[28]"
+   + "si[29]" + "si[2]" + "si[30]" + "si[31]" + "si[3]" + "si[4]" + "si[5]" + "si[6]"
+   + "si[7]" + "si[8]" + "si[9]" + "test_si" + "test_se"'; // #signals=36
+   "_po" = '"rd" + "so[0]" + "so[10]" + "so[11]" + "so[12]" + "so[13]" + "so[14]"
+   + "so[15]" + "so[16]" + "so[17]" + "so[18]" + "so[19]" + "so[1]" + "so[2]" + "so[3]"
+   + "so[4]" + "so[5]" + "so[6]" + "so[7]" + "so[8]" + "so[9]" + "wr" + "test_so"';
+   // #signals=23
+   "_si" = '"test_si"' { ScanIn; } // #signals=1
+   "all_outputs" = '"rd" + "so[0]" + "so[10]" + "so[11]" + "so[12]" + "so[13]" + "so[14]"
+   + "so[15]" + "so[16]" + "so[17]" + "so[18]" + "so[19]" + "so[1]" + "so[2]" + "so[3]"
+   + "so[4]" + "so[5]" + "so[6]" + "so[7]" + "so[8]" + "so[9]" + "wr" + "test_so"';
+   // #signals=23
+   "all_ports" = '"all_inputs" + "all_outputs"'; // #signals=59
+   "_clk" = '"clock" + "reset"'; // #signals=2
+   "_so" = '"test_so"' { ScanOut; } // #signals=1
+   "_out" = '"so[19]" + "so[18]" + "so[17]" + "so[16]" + "so[15]" + "so[14]" + "so[13]"
+   + "so[12]" + "so[11]" + "so[10]" + "so[9]" + "so[8]" + "so[7]" + "so[6]" + "so[5]"
+   + "so[4]" + "so[3]" + "so[2]" + "so[1]" + "so[0]" + "rd" + "wr" + "test_so"'; // #signals=23
+}
+Timing {
+   WaveformTable "_allclock_launch_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "clock" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "reset" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_multiclock_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "clock" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "reset" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_allclock_launch_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "clock" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "reset" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_allclock_capture_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "clock" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "reset" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+   WaveformTable "_default_WFT_" {
+      Period '100ns';
+      Waveforms {
+         "all_inputs" { 0 { '0ns' D; } }
+         "all_inputs" { 1 { '0ns' U; } }
+         "all_inputs" { Z { '0ns' Z; } }
+         "all_inputs" { N { '0ns' N; } }
+         "all_outputs" { X { '0ns' X; '40ns' X; } }
+         "all_outputs" { H { '0ns' X; '40ns' H; } }
+         "all_outputs" { L { '0ns' X; '40ns' L; } }
+         "all_outputs" { T { '0ns' X; '40ns' T; } }
+         "clock" { P { '0ns' D; '45ns' U; '55ns' D; } }
+         "reset" { P { '0ns' D; '45ns' U; '55ns' D; } }
+      }
+   }
+}
+ScanStructures {
+   ScanChain "1" {
+      ScanLength 430;
+      ScanIn "test_si";
+      ScanOut "test_so";
+      ScanInversion 0;
+      ScanCells "b20.P1_B_reg.SI" "b20.P1_IR_reg_0_.SI" "b20.P1_IR_reg_1_.SI" "b20.P1_IR_reg_2_.SI" 
+      "b20.P1_IR_reg_3_.SI" "b20.P1_IR_reg_4_.SI" "b20.P1_IR_reg_5_.SI" "b20.P1_IR_reg_6_.SI" 
+      "b20.P1_IR_reg_7_.SI" "b20.P1_IR_reg_8_.SI" "b20.P1_IR_reg_9_.SI" "b20.P1_IR_reg_10_.SI" 
+      "b20.P1_IR_reg_11_.SI" "b20.P1_IR_reg_12_.SI" "b20.P1_IR_reg_13_.SI" "b20.P1_IR_reg_14_.SI" 
+      "b20.P1_IR_reg_15_.SI" "b20.P1_IR_reg_16_.SI" "b20.P1_IR_reg_17_.SI" "b20.P1_IR_reg_18_.SI" 
+      "b20.P1_IR_reg_19_.SI" "b20.P1_IR_reg_20_.SI" "b20.P1_IR_reg_21_.SI" "b20.P1_IR_reg_22_.SI" 
+      "b20.P1_IR_reg_23_.SI" "b20.P1_IR_reg_24_.SI" "b20.P1_IR_reg_25_.SI" "b20.P1_IR_reg_26_.SI" 
+      "b20.P1_IR_reg_27_.SI" "b20.P1_IR_reg_28_.SI" "b20.P1_IR_reg_29_.SI" "b20.P1_IR_reg_30_.SI" 
+      "b20.P1_IR_reg_31_.SI" "b20.P1_addr_reg_0_.SI" "b20.P1_addr_reg_1_.SI" 
+      "b20.P1_addr_reg_2_.SI" "b20.P1_addr_reg_3_.SI" "b20.P1_addr_reg_4_.SI" 
+      "b20.P1_addr_reg_5_.SI" "b20.P1_addr_reg_6_.SI" "b20.P1_addr_reg_7_.SI" 
+      "b20.P1_addr_reg_8_.SI" "b20.P1_addr_reg_9_.SI" "b20.P1_addr_reg_10_.SI" 
+      "b20.P1_addr_reg_11_.SI" "b20.P1_addr_reg_12_.SI" "b20.P1_addr_reg_13_.SI" 
+      "b20.P1_addr_reg_14_.SI" "b20.P1_addr_reg_15_.SI" "b20.P1_addr_reg_16_.SI" 
+      "b20.P1_addr_reg_17_.SI" "b20.P1_addr_reg_18_.SI" "b20.P1_addr_reg_19_.SI" 
+      "b20.P1_d_reg_0_.SI" "b20.P1_d_reg_1_.SI" "b20.P1_datao_reg_0_.SI" "b20.P1_datao_reg_1_.SI" 
+      "b20.P1_datao_reg_2_.SI" "b20.P1_datao_reg_3_.SI" "b20.P1_datao_reg_4_.SI" 
+      "b20.P1_datao_reg_5_.SI" "b20.P1_datao_reg_6_.SI" "b20.P1_datao_reg_7_.SI" 
+      "b20.P1_datao_reg_8_.SI" "b20.P1_datao_reg_9_.SI" "b20.P1_datao_reg_10_.SI" 
+      "b20.P1_datao_reg_11_.SI" "b20.P1_datao_reg_12_.SI" "b20.P1_datao_reg_13_.SI" 
+      "b20.P1_datao_reg_14_.SI" "b20.P1_datao_reg_15_.SI" "b20.P1_datao_reg_16_.SI" 
+      "b20.P1_datao_reg_17_.SI" "b20.P1_datao_reg_18_.SI" "b20.P1_datao_reg_19_.SI" 
+      "b20.P1_datao_reg_20_.SI" "b20.P1_datao_reg_21_.SI" "b20.P1_datao_reg_22_.SI" 
+      "b20.P1_datao_reg_23_.SI" "b20.P1_datao_reg_24_.SI" "b20.P1_datao_reg_25_.SI" 
+      "b20.P1_datao_reg_26_.SI" "b20.P1_datao_reg_27_.SI" "b20.P1_datao_reg_28_.SI" 
+      "b20.P1_datao_reg_29_.SI" "b20.P1_datao_reg_30_.SI" "b20.P1_datao_reg_31_.SI" 
+      "b20.P1_rd_reg.SI" "b20.P1_reg0_reg_0_.SI" "b20.P1_reg0_reg_1_.SI" "b20.P1_reg0_reg_2_.SI" 
+      "b20.P1_reg0_reg_3_.SI" "b20.P1_reg0_reg_4_.SI" "b20.P1_reg0_reg_5_.SI" 
+      "b20.P1_reg0_reg_6_.SI" "b20.P1_reg0_reg_7_.SI" "b20.P1_reg0_reg_8_.SI" 
+      "b20.P1_reg0_reg_9_.SI" "b20.P1_reg0_reg_10_.SI" "b20.P1_reg0_reg_11_.SI" 
+      "b20.P1_reg0_reg_12_.SI" "b20.P1_reg0_reg_13_.SI" "b20.P1_reg0_reg_14_.SI" 
+      "b20.P1_reg0_reg_15_.SI" "b20.P1_reg0_reg_16_.SI" "b20.P1_reg0_reg_17_.SI" 
+      "b20.P1_reg0_reg_18_.SI" "b20.P1_reg0_reg_19_.SI" "b20.P1_reg0_reg_20_.SI" 
+      "b20.P1_reg0_reg_21_.SI" "b20.P1_reg0_reg_22_.SI" "b20.P1_reg0_reg_23_.SI" 
+      "b20.P1_reg0_reg_24_.SI" "b20.P1_reg0_reg_25_.SI" "b20.P1_reg0_reg_26_.SI" 
+      "b20.P1_reg0_reg_27_.SI" "b20.P1_reg0_reg_28_.SI" "b20.P1_reg0_reg_29_.SI" 
+      "b20.P1_reg0_reg_30_.SI" "b20.P1_reg0_reg_31_.SI" "b20.P1_reg1_reg_0_.SI" 
+      "b20.P1_reg1_reg_1_.SI" "b20.P1_reg1_reg_2_.SI" "b20.P1_reg1_reg_3_.SI" 
+      "b20.P1_reg1_reg_4_.SI" "b20.P1_reg1_reg_5_.SI" "b20.P1_reg1_reg_6_.SI" 
+      "b20.P1_reg1_reg_7_.SI" "b20.P1_reg1_reg_8_.SI" "b20.P1_reg1_reg_9_.SI" 
+      "b20.P1_reg1_reg_10_.SI" "b20.P1_reg1_reg_11_.SI" "b20.P1_reg1_reg_12_.SI" 
+      "b20.P1_reg1_reg_13_.SI" "b20.P1_reg1_reg_14_.SI" "b20.P1_reg1_reg_15_.SI" 
+      "b20.P1_reg1_reg_16_.SI" "b20.P1_reg1_reg_17_.SI" "b20.P1_reg1_reg_18_.SI" 
+      "b20.P1_reg1_reg_19_.SI" "b20.P1_reg1_reg_20_.SI" "b20.P1_reg1_reg_21_.SI" 
+      "b20.P1_reg1_reg_22_.SI" "b20.P1_reg1_reg_23_.SI" "b20.P1_reg1_reg_24_.SI" 
+      "b20.P1_reg1_reg_25_.SI" "b20.P1_reg1_reg_26_.SI" "b20.P1_reg1_reg_27_.SI" 
+      "b20.P1_reg1_reg_28_.SI" "b20.P1_reg1_reg_29_.SI" "b20.P1_reg1_reg_30_.SI" 
+      "b20.P1_reg1_reg_31_.SI" "b20.P1_reg2_reg_0_.SI" "b20.P1_reg2_reg_1_.SI" 
+      "b20.P1_reg2_reg_2_.SI" "b20.P1_reg2_reg_3_.SI" "b20.P1_reg2_reg_4_.SI" 
+      "b20.P1_reg2_reg_5_.SI" "b20.P1_reg2_reg_6_.SI" "b20.P1_reg2_reg_7_.SI" 
+      "b20.P1_reg2_reg_8_.SI" "b20.P1_reg2_reg_9_.SI" "b20.P1_reg2_reg_10_.SI" 
+      "b20.P1_reg2_reg_11_.SI" "b20.P1_reg2_reg_12_.SI" "b20.P1_reg2_reg_13_.SI" 
+      "b20.P1_reg2_reg_14_.SI" "b20.P1_reg2_reg_15_.SI" "b20.P1_reg2_reg_16_.SI" 
+      "b20.P1_reg2_reg_17_.SI" "b20.P1_reg2_reg_18_.SI" "b20.P1_reg2_reg_19_.SI" 
+      "b20.P1_reg2_reg_20_.SI" "b20.P1_reg2_reg_21_.SI" "b20.P1_reg2_reg_22_.SI" 
+      "b20.P1_reg2_reg_23_.SI" "b20.P1_reg2_reg_24_.SI" "b20.P1_reg2_reg_25_.SI" 
+      "b20.P1_reg2_reg_26_.SI" "b20.P1_reg2_reg_27_.SI" "b20.P1_reg2_reg_28_.SI" 
+      "b20.P1_reg2_reg_29_.SI" "b20.P1_reg2_reg_30_.SI" "b20.P1_reg2_reg_31_.SI" 
+      "b20.P1_reg3_reg_0_.SI" "b20.P1_reg3_reg_1_.SI" "b20.P1_reg3_reg_2_.SI" 
+      "b20.P1_reg3_reg_3_.SI" "b20.P1_reg3_reg_4_.SI" "b20.P1_reg3_reg_5_.SI" 
+      "b20.P1_reg3_reg_6_.SI" "b20.P1_reg3_reg_7_.SI" "b20.P1_reg3_reg_8_.SI" 
+      "b20.P1_reg3_reg_9_.SI" "b20.P1_reg3_reg_10_.SI" "b20.P1_reg3_reg_11_.SI" 
+      "b20.P1_reg3_reg_12_.SI" "b20.P1_reg3_reg_13_.SI" "b20.P1_reg3_reg_14_.SI" 
+      "b20.P1_reg3_reg_15_.SI" "b20.P1_reg3_reg_16_.SI" "b20.P1_reg3_reg_17_.SI" 
+      "b20.P1_reg3_reg_18_.SI" "b20.P1_reg3_reg_19_.SI" "b20.P1_reg3_reg_20_.SI" 
+      "b20.P1_reg3_reg_21_.SI" "b20.P1_reg3_reg_22_.SI" "b20.P1_reg3_reg_23_.SI" 
+      "b20.P1_reg3_reg_24_.SI" "b20.P1_reg3_reg_25_.SI" "b20.P1_reg3_reg_26_.SI" 
+      "b20.P1_reg3_reg_27_.SI" "b20.P1_reg3_reg_28_.SI" "b20.P1_state_reg.SI" "b20.P1_wr_reg.SI" 
+      "b20.P2_B_reg.SI" "b20.P2_IR_reg_0_.SI" "b20.P2_IR_reg_1_.SI" "b20.P2_IR_reg_2_.SI" 
+      "b20.P2_IR_reg_3_.SI" "b20.P2_IR_reg_4_.SI" "b20.P2_IR_reg_5_.SI" "b20.P2_IR_reg_6_.SI" 
+      "b20.P2_IR_reg_7_.SI" "b20.P2_IR_reg_8_.SI" "b20.P2_IR_reg_9_.SI" "b20.P2_IR_reg_10_.SI" 
+      "b20.P2_IR_reg_11_.SI" "b20.P2_IR_reg_12_.SI" "b20.P2_IR_reg_13_.SI" "b20.P2_IR_reg_14_.SI" 
+      "b20.P2_IR_reg_15_.SI" "b20.P2_IR_reg_16_.SI" "b20.P2_IR_reg_17_.SI" "b20.P2_IR_reg_18_.SI" 
+      "b20.P2_IR_reg_19_.SI" "b20.P2_IR_reg_20_.SI" "b20.P2_IR_reg_21_.SI" "b20.P2_IR_reg_22_.SI" 
+      "b20.P2_IR_reg_23_.SI" "b20.P2_IR_reg_24_.SI" "b20.P2_IR_reg_25_.SI" "b20.P2_IR_reg_26_.SI" 
+      "b20.P2_IR_reg_27_.SI" "b20.P2_IR_reg_28_.SI" "b20.P2_IR_reg_29_.SI" "b20.P2_IR_reg_30_.SI" 
+      "b20.P2_IR_reg_31_.SI" "b20.P2_addr_reg_0_.SI" "b20.P2_addr_reg_1_.SI" 
+      "b20.P2_addr_reg_2_.SI" "b20.P2_addr_reg_3_.SI" "b20.P2_addr_reg_4_.SI" 
+      "b20.P2_addr_reg_5_.SI" "b20.P2_addr_reg_6_.SI" "b20.P2_addr_reg_7_.SI" 
+      "b20.P2_addr_reg_8_.SI" "b20.P2_addr_reg_9_.SI" "b20.P2_addr_reg_10_.SI" 
+      "b20.P2_addr_reg_11_.SI" "b20.P2_addr_reg_12_.SI" "b20.P2_addr_reg_13_.SI" 
+      "b20.P2_addr_reg_14_.SI" "b20.P2_addr_reg_15_.SI" "b20.P2_addr_reg_16_.SI" 
+      "b20.P2_addr_reg_17_.SI" "b20.P2_addr_reg_18_.SI" "b20.P2_addr_reg_19_.SI" 
+      "b20.P2_d_reg_0_.SI" "b20.P2_d_reg_1_.SI" "b20.P2_datao_reg_0_.SI" "b20.P2_datao_reg_1_.SI" 
+      "b20.P2_datao_reg_2_.SI" "b20.P2_datao_reg_3_.SI" "b20.P2_datao_reg_4_.SI" 
+      "b20.P2_datao_reg_5_.SI" "b20.P2_datao_reg_6_.SI" "b20.P2_datao_reg_7_.SI" 
+      "b20.P2_datao_reg_8_.SI" "b20.P2_datao_reg_9_.SI" "b20.P2_datao_reg_10_.SI" 
+      "b20.P2_datao_reg_11_.SI" "b20.P2_datao_reg_12_.SI" "b20.P2_datao_reg_13_.SI" 
+      "b20.P2_datao_reg_14_.SI" "b20.P2_datao_reg_15_.SI" "b20.P2_datao_reg_16_.SI" 
+      "b20.P2_datao_reg_17_.SI" "b20.P2_datao_reg_18_.SI" "b20.P2_datao_reg_19_.SI" 
+      "b20.P2_datao_reg_20_.SI" "b20.P2_datao_reg_21_.SI" "b20.P2_datao_reg_22_.SI" 
+      "b20.P2_datao_reg_23_.SI" "b20.P2_datao_reg_24_.SI" "b20.P2_datao_reg_25_.SI" 
+      "b20.P2_datao_reg_26_.SI" "b20.P2_datao_reg_27_.SI" "b20.P2_datao_reg_28_.SI" 
+      "b20.P2_datao_reg_29_.SI" "b20.P2_datao_reg_30_.SI" "b20.P2_datao_reg_31_.SI" 
+      "b20.P2_rd_reg.SI" "b20.P2_reg0_reg_0_.SI" "b20.P2_reg0_reg_1_.SI" "b20.P2_reg0_reg_2_.SI" 
+      "b20.P2_reg0_reg_3_.SI" "b20.P2_reg0_reg_4_.SI" "b20.P2_reg0_reg_5_.SI" 
+      "b20.P2_reg0_reg_6_.SI" "b20.P2_reg0_reg_7_.SI" "b20.P2_reg0_reg_8_.SI" 
+      "b20.P2_reg0_reg_9_.SI" "b20.P2_reg0_reg_10_.SI" "b20.P2_reg0_reg_11_.SI" 
+      "b20.P2_reg0_reg_12_.SI" "b20.P2_reg0_reg_13_.SI" "b20.P2_reg0_reg_14_.SI" 
+      "b20.P2_reg0_reg_15_.SI" "b20.P2_reg0_reg_16_.SI" "b20.P2_reg0_reg_17_.SI" 
+      "b20.P2_reg0_reg_18_.SI" "b20.P2_reg0_reg_19_.SI" "b20.P2_reg0_reg_20_.SI" 
+      "b20.P2_reg0_reg_21_.SI" "b20.P2_reg0_reg_22_.SI" "b20.P2_reg0_reg_23_.SI" 
+      "b20.P2_reg0_reg_24_.SI" "b20.P2_reg0_reg_25_.SI" "b20.P2_reg0_reg_26_.SI" 
+      "b20.P2_reg0_reg_27_.SI" "b20.P2_reg0_reg_28_.SI" "b20.P2_reg0_reg_29_.SI" 
+      "b20.P2_reg0_reg_30_.SI" "b20.P2_reg0_reg_31_.SI" "b20.P2_reg1_reg_0_.SI" 
+      "b20.P2_reg1_reg_1_.SI" "b20.P2_reg1_reg_2_.SI" "b20.P2_reg1_reg_3_.SI" 
+      "b20.P2_reg1_reg_4_.SI" "b20.P2_reg1_reg_5_.SI" "b20.P2_reg1_reg_6_.SI" 
+      "b20.P2_reg1_reg_7_.SI" "b20.P2_reg1_reg_8_.SI" "b20.P2_reg1_reg_9_.SI" 
+      "b20.P2_reg1_reg_10_.SI" "b20.P2_reg1_reg_11_.SI" "b20.P2_reg1_reg_12_.SI" 
+      "b20.P2_reg1_reg_13_.SI" "b20.P2_reg1_reg_14_.SI" "b20.P2_reg1_reg_15_.SI" 
+      "b20.P2_reg1_reg_16_.SI" "b20.P2_reg1_reg_17_.SI" "b20.P2_reg1_reg_18_.SI" 
+      "b20.P2_reg1_reg_19_.SI" "b20.P2_reg1_reg_20_.SI" "b20.P2_reg1_reg_21_.SI" 
+      "b20.P2_reg1_reg_22_.SI" "b20.P2_reg1_reg_23_.SI" "b20.P2_reg1_reg_24_.SI" 
+      "b20.P2_reg1_reg_25_.SI" "b20.P2_reg1_reg_26_.SI" "b20.P2_reg1_reg_27_.SI" 
+      "b20.P2_reg1_reg_28_.SI" "b20.P2_reg1_reg_29_.SI" "b20.P2_reg1_reg_30_.SI" 
+      "b20.P2_reg1_reg_31_.SI" "b20.P2_reg2_reg_0_.SI" "b20.P2_reg2_reg_1_.SI" 
+      "b20.P2_reg2_reg_2_.SI" "b20.P2_reg2_reg_3_.SI" "b20.P2_reg2_reg_4_.SI" 
+      "b20.P2_reg2_reg_5_.SI" "b20.P2_reg2_reg_6_.SI" "b20.P2_reg2_reg_7_.SI" 
+      "b20.P2_reg2_reg_8_.SI" "b20.P2_reg2_reg_9_.SI" "b20.P2_reg2_reg_10_.SI" 
+      "b20.P2_reg2_reg_11_.SI" "b20.P2_reg2_reg_12_.SI" "b20.P2_reg2_reg_13_.SI" 
+      "b20.P2_reg2_reg_14_.SI" "b20.P2_reg2_reg_15_.SI" "b20.P2_reg2_reg_16_.SI" 
+      "b20.P2_reg2_reg_17_.SI" "b20.P2_reg2_reg_18_.SI" "b20.P2_reg2_reg_19_.SI" 
+      "b20.P2_reg2_reg_20_.SI" "b20.P2_reg2_reg_21_.SI" "b20.P2_reg2_reg_22_.SI" 
+      "b20.P2_reg2_reg_23_.SI" "b20.P2_reg2_reg_24_.SI" "b20.P2_reg2_reg_25_.SI" 
+      "b20.P2_reg2_reg_26_.SI" "b20.P2_reg2_reg_27_.SI" "b20.P2_reg2_reg_28_.SI" 
+      "b20.P2_reg2_reg_29_.SI" "b20.P2_reg2_reg_30_.SI" "b20.P2_reg2_reg_31_.SI" 
+      "b20.P2_reg3_reg_0_.SI" "b20.P2_reg3_reg_1_.SI" "b20.P2_reg3_reg_2_.SI" 
+      "b20.P2_reg3_reg_3_.SI" "b20.P2_reg3_reg_4_.SI" "b20.P2_reg3_reg_5_.SI" 
+      "b20.P2_reg3_reg_6_.SI" "b20.P2_reg3_reg_7_.SI" "b20.P2_reg3_reg_8_.SI" 
+      "b20.P2_reg3_reg_9_.SI" "b20.P2_reg3_reg_10_.SI" "b20.P2_reg3_reg_11_.SI" 
+      "b20.P2_reg3_reg_12_.SI" "b20.P2_reg3_reg_13_.SI" "b20.P2_reg3_reg_14_.SI" 
+      "b20.P2_reg3_reg_15_.SI" "b20.P2_reg3_reg_16_.SI" "b20.P2_reg3_reg_17_.SI" 
+      "b20.P2_reg3_reg_18_.SI" "b20.P2_reg3_reg_19_.SI" "b20.P2_reg3_reg_20_.SI" 
+      "b20.P2_reg3_reg_21_.SI" "b20.P2_reg3_reg_22_.SI" "b20.P2_reg3_reg_23_.SI" 
+      "b20.P2_reg3_reg_24_.SI" "b20.P2_reg3_reg_25_.SI" "b20.P2_reg3_reg_26_.SI" 
+      "b20.P2_reg3_reg_27_.SI" "b20.P2_reg3_reg_28_.SI" "b20.P2_state_reg.SI" "b20.P2_wr_reg.SI" ;
+      ScanMasterClock "clock" ;
+   }
+}
+PatternBurst "_burst_" {
+   PatList { "_pattern_" {
+   }
+}}
+PatternExec {
+   PatternBurst "_burst_";
+}
+Procedures {
+   "multiclock_capture" {
+      W "_multiclock_capture_WFT_";
+      C { "all_inputs"=00\r34 N ; "all_outputs"=\r23 X ; }
+      F { "reset"=0; "test_se"=0; }
+      V { "_pi"=\r36 # ; "_po"=\r23 # ; }
+   }
+   "allclock_capture" {
+      W "_allclock_capture_WFT_";
+      C { "all_inputs"=00\r34 N ; "all_outputs"=\r23 X ; }
+      F { "reset"=0; "test_se"=0; }
+      V { "_pi"=\r36 # ; "_po"=\r23 # ; }
+   }
+   "allclock_launch" {
+      W "_allclock_launch_WFT_";
+      C { "all_inputs"=00\r34 N ; "all_outputs"=\r23 X ; }
+      F { "reset"=0; "test_se"=0; }
+      V { "_pi"=\r36 # ; "_po"=\r23 # ; }
+   }
+   "allclock_launch_capture" {
+      W "_allclock_launch_capture_WFT_";
+      C { "all_inputs"=00\r34 N ; "all_outputs"=\r23 X ; }
+      F { "reset"=0; "test_se"=0; }
+      V { "_pi"=\r36 # ; "_po"=\r23 # ; }
+   }
+   "load_unload" {
+      W "_default_WFT_";
+      C { "all_inputs"=00\r34 N ; "all_outputs"=\r23 X ; }
+      "Internal_scan_pre_shift": V { "test_se"=1; }
+      Shift {          W "_default_WFT_";
+         V { "_clk"=P0; "_si"=#; "_so"=#; }
+      }
+   }
+}
+MacroDefs {
+   "test_setup" {
+      W "_default_WFT_";
+      C { "all_inputs"=\r36 N ; "all_outputs"=\r23 X ; }
+      V { "clock"=0; "reset"=0; }
+      V { "test_se"=0; }
+   }
+}
+Pattern "_pattern_" {
+   W "_multiclock_capture_WFT_";
+   "precondition all Signals": C { "_pi"=\r36 0 ; "_po"=\r23 X ; }
+   Macro "test_setup";
+
+"""
+
+format2 = """
+   "end {total} unload": Call "load_unload" {{ 
+      "test_so"={test_so}; }}
+}}
+"""
+
+format3 = """
+"pattern {pattern_num}": Call "load_unload" {{
+      "test_si"={test_si}; }}
+   Call "multiclock_capture" {{ 
+      "_pi"={pi}; "_po"={po}; }}
+"""
