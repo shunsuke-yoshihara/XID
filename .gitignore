@@ -5,13 +5,15 @@ dc_netlist_parser/report/
 dc_netlist_parser/script/
 
 #
-b14/Partitioning_Flt
-b14/Partitioning_Stil
-b14/Partitioning_Stil_Testbench
-b14/Partitioning_Stil_Testbench_VCD
+dc_netlist_parser/default.svf
+dc_netlist_parser/command.log
+dc_netlist_parser/b14/Partitioning_Stil
+dc_netlist_parser/b14/Partitioning_Stil_Testbench
+dc_netlist_parser/b14/Partitioning_Stil_Testbench_VCD
+dc_netlist_parser/b14/b14_dump.v
+dc_netlist_parser/b14/b14_signal_list.txt
+dc_netlist_parser/b14/b14_FaultSim_Per_Pattern.tmx.log
+dc_netlist_parser/python/src/__pycache__
 
-b14_FaultSim_Per_Pattern.tmx.log
-b14_Essential_Fault.txt
-b14_signal_list.txt
 
-python/src/__pycache__
+

@@ -19,8 +19,8 @@ Output_Stil_File = f"{Circuit}_pn"
 ##############################################################
 
 Partitioning_Stil_File_Path = os.path.join("..", Circuit,  Partitioning_Stil_File)
-Stil_Format_Path = os.path.join("..", "..", "Stil_Format", Stil_Format)
-Output_Stil_File_Path = os.path.join("..", Circuit, "Partitioning_Stil")
+Stil_Format_Path = os.path.join("..", "Stil_Format", Stil_Format)
+Output_Stil_File_Path = os.path.join(Circuit, "Partitioning_Stil")
 
 print(f"分割元Stil : {Partitioning_Stil_File}\n"
       f"分割元Stilファイルパス :  {Partitioning_Stil_File_Path}\n"
