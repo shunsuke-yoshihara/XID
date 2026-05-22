@@ -109,7 +109,7 @@ dc_shell>
 
 ```text
 % cd dc_netlist_parser
-% python3 python/Basic_CB_Partition_to_STIL.py
+% python3 python/b14_Basic_CB_Partition_to_STIL.py
 ```
 
 2. 分割後のSTILを使用して、1パターンごとのテストベンチ作成
