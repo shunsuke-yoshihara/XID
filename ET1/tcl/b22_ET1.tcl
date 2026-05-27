@@ -5,6 +5,8 @@ set PI_BIT 36
 
 # Number of Pattrens
 set PATTERNS 1580
+set LAST_DT_FLT NONE
+set DROPPED_FLT_FILES {}
 
 
 exec rm -f ${CIRCUIT}/${CIRCUIT}_ET1.stil
@@ -24,11 +26,7 @@ run_drc ../${CIRCUIT}/${CIRCUIT}.spf
 
 
 # 1パターン- $Patterns パターン(0パターン目は、Chain Test)
-for {set n 1} {$n <= $PATTERNS} {incr n} {
-  if { [expr {$n % 1}] == 0 } {
-    puts stderr "[clock format [clock seconds] -format {%Y-%m-%d %H:%M:%S}] Now = $n Pattern"
-    flush stderr
-  }
+for {set n $PATTERNS} {$n >= 1} {incr n -1} {
   for {set bit 0} {$bit < $SI_BIT} {incr bit} {
     set stil_file [exec python3 python/${CIRCUIT}_Make_Candidate_X_STIL.py $n test_si $bit]
 
@@ -42,6 +40,7 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
     if {[file size $fault_file] == 0} {
       puts stderr "XID_FLAG=1: empty DT fault file: $fault_file"
       exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
+      set optimized_stil_file_per_pattern $stil_file
       continue
     }
 
@@ -49,6 +48,20 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
     set_patterns -external $stil_file
 
     read_faults $fault_file
+
+    foreach dropped_file $DROPPED_FLT_FILES {
+      read_faults $dropped_file -delete
+    }
+
+    set TMP_FLT ${CIRCUIT}/Partitioning_XID/$n/${CIRCUIT}_remain_pn$n.flt
+    write_faults $TMP_FLT -all -replace
+
+    if {[file size $TMP_FLT] == 0} {
+      exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
+      set optimized_stil_file_per_pattern $stil_file
+      continue
+    }
+
 
 
     # Run simulation
@@ -61,15 +74,16 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
 
     # Write Fault List
     write_faults ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt -class DT -replace
-    write_faults ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}_ND.flt -class ND -replace
-    write_faults ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}.flt -all -replace
+    #write_faults ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}_ND.flt -class ND -replace
+    #write_faults ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}.flt -all -replace
     remove_faults -all
 
     #X Identification Check
-    set XID_FLAG [exec python3 python/Compare_Fault_List.py ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt ${CIRCUIT}/Partitioning_Flt_Dropping_DT/${CIRCUIT}_pn${n}_DT.flt]
+    set XID_FLAG [exec python3 python/Compare_Fault_List.py ${CIRCUIT}/Partitioning_XID/$n/test_si/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt $TMP_FLT]
 
     if {$XID_FLAG == 1} {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
+        set optimized_stil_file_per_pattern $stil_file
     }
   }
 
@@ -90,6 +104,7 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
     if {[file size $fault_file] == 0} {
       puts stderr "XID_FLAG=1: empty DT fault file: $fault_file"
       exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
+      set optimized_stil_file_per_pattern $stil_file
       continue
     }
 
@@ -97,6 +112,20 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
     set_patterns -external $stil_file
 
     read_faults $fault_file
+
+    foreach dropped_file $DROPPED_FLT_FILES {
+      read_faults $dropped_file -delete
+    }
+
+
+    set TMP_FLT ${CIRCUIT}/Partitioning_XID/$n/${CIRCUIT}_remain_pn$n.flt
+    write_faults $TMP_FLT -all -replace
+
+    if {[file size $TMP_FLT] == 0} {
+      exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
+      set optimized_stil_file_per_pattern $stil_file
+      continue
+    }
 
 
 
@@ -111,17 +140,40 @@ for {set n 1} {$n <= $PATTERNS} {incr n} {
 
     # Write Fault List
     write_faults ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt -class DT -replace
-    write_faults ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_ND.flt -class ND -replace
-    write_faults ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}.flt -all -replace
+    #write_faults ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_ND.flt -class ND -replace
+    #write_faults ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}.flt -all -replace
 
     #X Identification Check
-    set XID_FLAG [exec python3 python/Compare_Fault_List.py ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt ${CIRCUIT}/Partitioning_Flt_Dropping_DT/${CIRCUIT}_pn${n}_DT.flt]
+    set XID_FLAG [exec python3 python/Compare_Fault_List.py ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt $TMP_FLT]
     remove_faults -all
 
     if {$XID_FLAG == 1} {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
+        set optimized_stil_file_per_pattern $stil_file
     }
   }
+
+
+  add_faults -all
+  set_patterns -external $optimized_stil_file_per_pattern
+  # Run simulation
+  run_simulation -sequential -update
+  run_fault_sim -detected_pattern_storage
+
+  # Report Faults
+  set_faults -fault_coverage
+  report_faults -summary
+
+  # Write Fault List
+  set LAST_DT_FLT ${CIRCUIT}/Partitioning_XID/$n/${CIRCUIT}_pn${n}_final_DT.flt
+  write_faults $LAST_DT_FLT -class DT -replace
+  lappend DROPPED_FLT_FILES $LAST_DT_FLT
+  remove_faults -all
+
+
+
+
+
 }
 
 

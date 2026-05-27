@@ -11,7 +11,6 @@ ET1/b14/Partitioning_Stil
 ET1/b14/Partitioning_XID
 ET1/b14/b14_ET1.stil
 ET1/b14/b14_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b14_ET1.pid
 ET1/tcl/b14_ET1.tcl.log
 
 
@@ -25,7 +24,6 @@ ET1/b15/Partitioning_Stil
 ET1/b15/Partitioning_XID
 ET1/b15/b15_ET1.stil
 ET1/b15/b15_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b15_ET1.pid
 ET1/tcl/b15_ET1.tcl.log
 
 ET1/b17/Partitioning_Flt_Dropping_AE
@@ -38,7 +36,6 @@ ET1/b17/Partitioning_Stil
 ET1/b17/Partitioning_XID
 ET1/b17/b17_ET1.stil
 ET1/b17/b17_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b17_ET1.pid
 ET1/tcl/b17_ET1.tcl.log
 
 ET1/b18/Partitioning_Flt_Dropping_AE
@@ -51,7 +48,6 @@ ET1/b18/Partitioning_Stil
 ET1/b18/Partitioning_XID
 ET1/b18/b18_ET1.stil
 ET1/b18/b18_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b18_ET1.pid
 ET1/tcl/b18_ET1.tcl.log
 
 
@@ -65,7 +61,6 @@ ET1/b19/Partitioning_Stil
 ET1/b19/Partitioning_XID
 ET1/b19/b19_ET1.stil
 ET1/b19/b19_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b19_ET1.pid
 ET1/tcl/b19_ET1.tcl.log
 
 
@@ -79,7 +74,6 @@ ET1/b20/Partitioning_Stil
 ET1/b20/Partitioning_XID
 ET1/b20/b20_ET1.stil
 ET1/b20/b20_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b20_ET1.pid
 ET1/tcl/b20_ET1.tcl.log
 
 ET1/b21/Partitioning_Flt_Dropping_AE
@@ -92,7 +86,6 @@ ET1/b21/Partitioning_Stil
 ET1/b21/Partitioning_XID
 ET1/b21/b21_ET1.stil
 ET1/b21/b21_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b21_ET1.pid
 ET1/tcl/b21_ET1.tcl.log
 
 ET1/b22/Partitioning_Flt_Dropping_AE
@@ -105,7 +98,6 @@ ET1/b22/Partitioning_Stil
 ET1/b22/Partitioning_XID
 ET1/b22/b22_ET1.stil
 ET1/b22/b22_FaultSim_Per_Patetrn_Dropping.tmx.log
-ET1/tcl/b22_ET1.pid
 ET1/tcl/b22_ET1.tcl.log
 #########ET1###########
 
