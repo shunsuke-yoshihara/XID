@@ -1,6 +1,19 @@
 #########ET1###########
 ET1/python/src/__pycache__
 
+ET1/b01/Partitioning_Flt_Dropping_AE
+ET1/b01/Partitioning_Flt_Dropping_AU
+ET1/b01/Partitioning_Flt_Dropping_DT
+ET1/b01/Partitioning_Flt_Dropping_ND
+ET1/b01/Partitioning_Flt_Dropping_PT
+ET1/b01/Partitioning_Flt_Dropping_UD
+ET1/b01/Partitioning_Stil
+ET1/b01/Partitioning_XID
+ET1/b01/b01_ET1.stil
+ET1/b01/b01_FaultSim_Per_Patetrn_Dropping.tmx.log
+ET1/tcl/b01_ET1.tcl.log
+
+
 ET1/b14/Partitioning_Flt_Dropping_AE
 ET1/b14/Partitioning_Flt_Dropping_AU
 ET1/b14/Partitioning_Flt_Dropping_DT

@@ -28,19 +28,25 @@ proc timed_eval {key script} {
 ###############################################################
 ###############################################################
 
+# Circuit Name
+set CIRCUIT b01
 
+# Number of SI, PI Bits (Processing Target : 0 ~ ($SI_BIT -1))
+set SI_BIT 5
+set PI_BIT 6
 
-set CIRCUIT b22
-#単純にビット数を指定(test_si ビットが$SI_BIT個ある)
-set SI_BIT 613
-set PI_BIT 36
+# Number of Patterns
+set PATTERNS 15
 
-# Number of Pattrens
-set PATTERNS 1580
+# 処理を始めるパタン番号(途中で中断した場合に使用、最初から処理する場合、$Pattens と同じ数字を指定)
+set START_PATTERN 15
+
+# 番兵
 set LAST_DT_FLT NONE
+
+# 既処理のパターンで検出できる故障リストを入れるリスト
 set DROPPED_FLT_FILES {}
-
-
+###############################################################
 
 
 # Read library
@@ -72,8 +78,9 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
 
   # [SIビットを処理] 0ビット目から$SI_BIT 目まで順に処理
   for {set bit 0} {$bit < $SI_BIT} {incr bit} {
+    puts stderr "bit $bit"
 
-    # python処理1: b22_ET1.stil を読み込み、$n パタン目のtest_si の$bit 目を"N(don't care)"に変更したパターンを1パターンSTIL出力し、そのパスを返す(b22_ET1.stil は変更しない)
+    # python処理1: b14_ET1.stil を読み込み、$n パタン目のtest_si の$bit 目を"N(don't care)"に変更したパターンを1パターンSTIL出力し、そのパスを返す(b14_ET1.stil は変更しない)
     set stil_file [timed_eval make_candidate_python {
 
       exec python3 python/${CIRCUIT}_Make_Candidate_X_STIL.py $n test_si $bit
@@ -91,7 +98,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     if {[file size $fault_file] == 0} {
       puts stderr "XID_FLAG=1: empty DT fault file: $fault_file"
 
-      # python処理2: b22_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
+      # python処理2: b14_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する 
       timed_eval apply_x_python {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
       }
@@ -127,7 +134,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     if {[file size $REMAIN_FLT] == 0} {
 
       timed_eval apply_x_python {
-        # python処理2: b22_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
+        # python処理2: b14_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
       }
 
@@ -174,7 +181,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     # $XID_FLAG = 1 の場合
     if {$XID_FLAG == 1} {
 
-      # python処理2: b22_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
+      # python処理2: b14_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
       timed_eval apply_x_python {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n test_si $bit
       }
@@ -192,7 +199,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
   # [PIビットを処理] 0ビット目から$PI_BIT 目まで順に処理
   for {set bit 0} {$bit < $PI_BIT} {incr bit} {
 
-    # python処理1: b22_ET1.stil を読み込み、$n パタン目のpi の$bit 目を"N(don't care)"に変更したパターンを1パターンSTIL出力し、そのパスを返す(b22_ET1.stil は変更しない)
+    # python処理1: b14_ET1.stil を読み込み、$n パタン目のpi の$bit 目を"N(don't care)"に変更したパターンを1パターンSTIL出力し、そのパスを返す(b14_ET1.stil は変更しない)
     set stil_file [timed_eval make_candidate_python {
 
       exec python3 python/${CIRCUIT}_Make_Candidate_X_STIL.py $n pi $bit
@@ -211,7 +218,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     if {[file size $fault_file] == 0} {
       puts stderr "XID_FLAG=1: empty DT fault file: $fault_file"
 
-      # python処理2: b22_ET1.stil を読み込み、$n パターン目のpiの$bit 目を探し、"N"(don't care)に置換する
+      # python処理2: b14_ET1.stil を読み込み、$n パターン目のpiの$bit 目を探し、"N"(don't care)に置換する
       timed_eval apply_x_python {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
       }
@@ -246,7 +253,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     # 残っている故障がない場合($nパターンで検出を保証すべきだった故障は、既処理パターンですべて検出可能)、故障シミュレーションを行うまでもなくX化可能
     if {[file size $REMAIN_FLT] == 0} {
 
-        # python処理2: b22_ET1.stil を読み込み、$n パターン目のpiの$bit 目を探し、"N"(don't care)に置換する
+        # python処理2: b14_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
       timed_eval apply_x_python {
         exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
       }
@@ -275,6 +282,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
 
     # $REMAIN_FLT の内、検出できた故障を書き出す
     timed_eval write_dt_faults {
+      puts stderr "DETECTED FAULTS : ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt"
       set X_DETECTED_FAULTS ${CIRCUIT}/Partitioning_XID/$n/pi/$bit/${CIRCUIT}_pn${n}_${bit}_DT.flt
       write_faults $X_DETECTED_FAULTS -class DT -replace
     }
@@ -297,7 +305,7 @@ for {set n $START_PATTERN} {$n >= 1} {incr n -1} {
     # $XID_FLAG = 1 の場合
     if {$XID_FLAG == 1} {
 
-        # python処理2: b22_ET1.stil を読み込み、$n パターン目のpiの$bit 目を探し、"N"(don't care)に置換する
+        # python処理2: b14_ET1.stil を読み込み、$n パターン目のtest_siの$bit 目を探し、"N"(don't care)に置換する
         timed_eval apply_x_python {
           exec python3 python/${CIRCUIT}_Apply_X_To_Current_STIL.py $n pi $bit
         }

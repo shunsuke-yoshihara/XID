@@ -1,0 +1,1107 @@
+
+                             Synopsys TestMAX (TM) 
+                                  TetraMAX (R)
+
+               Version R-2020.09-SP4 for linux64 - Mar 02, 2021  
+
+                    Copyright (c) 1996 - 2021 Synopsys, Inc.
+   This software and the associated documentation are proprietary to Synopsys,
+ Inc. This software may only be used in accordance with the terms and conditions
+ of a written license agreement with Synopsys, Inc. All other use, reproduction,
+            or distribution of this software is strictly prohibited.
+
+
+ Tcl mode is on by default. Use -notcl to run in native mode.
+ Executing startup file "/gdsfs/gdsfs/cad/Synopsys/txs/R-2020.09-SP4/admin/setup/tmaxtcl.rc".
+####################
+set CIRCUIT b01
+b01
+# STIL 番号が663まである
+set PATTERNS 15
+15
+####################
+# Fault Simulation per 1 ATPG Pattern
+# Read library
+read_netlist -lib /home/csis/ohtake/cad/lib/TetraMAX/nangate45nm/nangate45nm.v
+ Begin reading netlist ( /home/csis/ohtake/cad/lib/TetraMAX/nangate45nm/nangate45nm.v )...
+ End parsing Verilog file /home/csis/ohtake/cad/lib/TetraMAX/nangate45nm/nangate45nm.v with 0 errors.
+ End reading netlist: #modules=163, top=XOR2_X2, #lines=2454, CPU_time=0.00 sec, Memory=0MB
+## Read scanned netlist (ex: netlist file name = paulin_scan.v)
+read_netlist ../${CIRCUIT}/_${CIRCUIT}.v
+ Begin reading netlist ( ../b01/_b01.v )...
+ End parsing Verilog file ../b01/_b01.v with 0 errors.
+ End reading netlist: #modules=1, top=b01, #lines=52, CPU_time=0.00 sec, Memory=0MB
+# Create the simulation model of the target module for ATPG
+# (ex: module name = paulin)
+run_build_model ${CIRCUIT}
+ ------------------------------------------------------------------------------
+ Begin build model for topcut = b01 ...
+ ------------------------------------------------------------------------------
+ There were 64 primitives and 2 faultable pins removed during model optimizations
+ Warning: Rule B9 (undriven module internal net) was violated 2 times.
+ Warning: Rule N21 (unsupported UDP entry) was violated 2 times.
+ End build model: #primitives=58, CPU_time=0.00 sec, Memory=0MB
+ ------------------------------------------------------------------------------
+ Begin learning analyses...
+ End learning analyses, total learning CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+# Design rule check (ex: protocol file name = paulin.spf)
+run_drc ../${CIRCUIT}/${CIRCUIT}.spf
+ ------------------------------------------------------------------------------
+ Begin scan design rules checking...
+ ------------------------------------------------------------------------------
+ Begin reading test protocol file ../b01/b01.spf...
+ End parsing STIL file ../b01/b01.spf with 0 errors.
+ Test protocol file reading completed, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ Begin simulating test protocol procedures...
+ Test protocol simulation completed, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ Begin scan chain operation checking...
+ Chain 1 successfully traced with 5 scan_cells.
+ Scan chain operation checking completed, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ Begin clock rules checking...
+ Clock rules checking completed, CPU time=0.00 sec.
+ Performing clock grouping analysis for 2 clocks.
+ Clock grouping results: #pairs=0, #groups=0, #serial_pairs=0, #disturbed_pairs=0, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ Begin nonscan rules checking...
+ Nonscan cell summary: #DFF=0  #DLAT=0  #RAM_outs=0  tla_usage_type=none
+ Nonscan rules checking completed, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ Begin DRC dependent learning...
+ Fast-sequential depth results: control=0(0), observe=0(0), detect=0(0), CPU time=0.00 sec
+ DRC dependent learning completed, CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+ DRC Summary Report
+ ------------------------------------------------------------------------------
+ No violations occurred during DRC process.
+ Design rules checking was successful, total CPU time=0.00 sec.
+ ------------------------------------------------------------------------------
+# Add Faults
+add_faults -all
+ 244 faults were added to fault list.
+# Write All Faults Information
+#report_faults -all > b14_all_Stack_Faults.flt
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_DT/
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_PT/
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_UD/
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_AU/
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_AE/
+exec mkdir -p ${CIRCUIT}/Partitioning_Flt_Dropping_ND/
+for {set n 1} {$n <= ${PATTERNS}} {incr n} {
+  if { [expr {$n % 100}] == 0 } {
+    puts stderr  "Now = $n Pattern"
+    flush stderr
+  }
+  # Set Patterns
+  set_patterns -external ${CIRCUIT}/Partitioning_Stil/${CIRCUIT}_pn${n}.stil
+
+
+  # Add Not-DT Faults
+  if {$n != 1} {
+    set LAST_PATTERN [expr {$n - 1}]
+
+    set pt_file ${CIRCUIT}/Partitioning_Flt_Dropping_PT/${CIRCUIT}_pn${LAST_PATTERN}_PT.flt
+    set ud_file ${CIRCUIT}/Partitioning_Flt_Dropping_UD/${CIRCUIT}_pn${LAST_PATTERN}_UD.flt
+    set au_file ${CIRCUIT}/Partitioning_Flt_Dropping_AU/${CIRCUIT}_pn${LAST_PATTERN}_AU.flt
+    set ae_file ${CIRCUIT}/Partitioning_Flt_Dropping_AE/${CIRCUIT}_pn${LAST_PATTERN}_AE.flt
+    set nd_file ${CIRCUIT}/Partitioning_Flt_Dropping_ND/${CIRCUIT}_pn${LAST_PATTERN}_ND.flt
+
+    if {[file exists $pt_file] && [file size $pt_file] > 0} {
+        read_faults $pt_file
+    }
+
+    if {[file exists $ud_file] && [file size $ud_file] > 0} {
+        read_faults $ud_file
+    }
+
+    if {[file exists $au_file] && [file size $au_file] > 0} {
+        read_faults $au_file
+    }
+
+    if {[file exists $ae_file] && [file size $ae_file] > 0} {
+        read_faults $ae_file
+    }
+
+    if {[file exists $nd_file] && [file size $nd_file] > 0} {
+        read_faults $nd_file
+    }
+
+  }
+
+  # Run simulation
+  run_simulation -sequential -update
+  run_fault_sim -detected_pattern_storage
+
+  # Report Faults 
+  set_faults -fault_coverage
+  report_faults -summary
+  report_summaries cpu_usage
+
+  # Write Fault List
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_DT/${CIRCUIT}_pn${n}_DT.flt -class DT -replace} 
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_PT/${CIRCUIT}_pn${n}_PT.flt -class PT -replace}
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_UD/${CIRCUIT}_pn${n}_UD.flt -class UD -replace}
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_AU/${CIRCUIT}_pn${n}_AU.flt -class AU -replace}
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_AE/${CIRCUIT}_pn${n}_AE.flt -class AE -replace}
+  catch {write_faults ${CIRCUIT}/Partitioning_Flt_Dropping_ND/${CIRCUIT}_pn${n}_ND.flt -class ND -replace}
+
+  #Remove Faults
+  remove_faults -all
+}
+ End parsing STIL file b01/Partitioning_Stil/b01_pn1.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 194 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1              52    142    41.80%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT        102
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND        142
+ -----------------------------------------------
+ total faults                               244
+ test coverage                            41.80%
+ fault coverage                           41.80%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.01
+ -----------------------------------------------
+ Write faults completed: 102 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn1_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn1_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn1_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn1_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn1_AE.flt".
+ Write faults completed: 142 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn1_ND.flt".
+ 244 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn2.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 142 faults were read in and 142 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 142 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1              19    123    13.38%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT         19
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND        123
+ -----------------------------------------------
+ total faults                               142
+ test coverage                            13.38%
+ fault coverage                           13.38%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.01
+ -----------------------------------------------
+ Write faults completed: 19 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn2_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn2_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn2_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn2_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn2_AE.flt".
+ Write faults completed: 123 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn2_ND.flt".
+ 142 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn3.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 123 faults were read in and 123 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 123 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1              41     82    33.33%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT         41
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         82
+ -----------------------------------------------
+ total faults                               123
+ test coverage                            33.33%
+ fault coverage                           33.33%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.01
+ -----------------------------------------------
+ Write faults completed: 41 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn3_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn3_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn3_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn3_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn3_AE.flt".
+ Write faults completed: 82 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn3_ND.flt".
+ 123 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn4.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 82 faults were read in and 82 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 82 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1              26     56    31.71%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT         26
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         56
+ -----------------------------------------------
+ total faults                                82
+ test coverage                            31.71%
+ fault coverage                           31.71%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 26 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn4_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn4_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn4_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn4_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn4_AE.flt".
+ Write faults completed: 56 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn4_ND.flt".
+ 82 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn5.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 56 faults were read in and 56 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 56 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               9     47    16.07%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          9
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         47
+ -----------------------------------------------
+ total faults                                56
+ test coverage                            16.07%
+ fault coverage                           16.07%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 9 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn5_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn5_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn5_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn5_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn5_AE.flt".
+ Write faults completed: 47 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn5_ND.flt".
+ 56 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn6.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 47 faults were read in and 47 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 47 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               9     38    19.15%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          9
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         38
+ -----------------------------------------------
+ total faults                                47
+ test coverage                            19.15%
+ fault coverage                           19.15%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 9 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn6_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn6_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn6_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn6_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn6_AE.flt".
+ Write faults completed: 38 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn6_ND.flt".
+ 47 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn7.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 38 faults were read in and 38 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 38 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               7     31    18.42%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          7
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         31
+ -----------------------------------------------
+ total faults                                38
+ test coverage                            18.42%
+ fault coverage                           18.42%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 7 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn7_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn7_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn7_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn7_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn7_AE.flt".
+ Write faults completed: 31 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn7_ND.flt".
+ 38 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn8.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 31 faults were read in and 31 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 31 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               5     26    16.13%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          5
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         26
+ -----------------------------------------------
+ total faults                                31
+ test coverage                            16.13%
+ fault coverage                           16.13%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 5 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn8_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn8_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn8_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn8_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn8_AE.flt".
+ Write faults completed: 26 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn8_ND.flt".
+ 31 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn9.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 26 faults were read in and 26 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 26 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               2     24     7.69%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          2
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         24
+ -----------------------------------------------
+ total faults                                26
+ test coverage                             7.69%
+ fault coverage                            7.69%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 2 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn9_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn9_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn9_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn9_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn9_AE.flt".
+ Write faults completed: 24 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn9_ND.flt".
+ 26 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn10.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 24 faults were read in and 24 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 24 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               1     23     4.17%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          1
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         23
+ -----------------------------------------------
+ total faults                                24
+ test coverage                             4.17%
+ fault coverage                            4.17%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 1 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn10_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn10_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn10_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn10_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn10_AE.flt".
+ Write faults completed: 23 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn10_ND.flt".
+ 24 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn11.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 23 faults were read in and 23 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 23 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               3     20    13.04%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          3
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         20
+ -----------------------------------------------
+ total faults                                23
+ test coverage                            13.04%
+ fault coverage                           13.04%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 3 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn11_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn11_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn11_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn11_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn11_AE.flt".
+ Write faults completed: 20 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn11_ND.flt".
+ 23 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn12.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 20 faults were read in and 20 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 20 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               4     16    20.00%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          4
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         16
+ -----------------------------------------------
+ total faults                                20
+ test coverage                            20.00%
+ fault coverage                           20.00%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 4 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn12_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn12_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn12_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn12_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn12_AE.flt".
+ Write faults completed: 16 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn12_ND.flt".
+ 20 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn13.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 16 faults were read in and 16 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 16 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               3     13    18.75%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          3
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND         13
+ -----------------------------------------------
+ total faults                                16
+ test coverage                            18.75%
+ fault coverage                           18.75%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.02
+ -----------------------------------------------
+ Write faults completed: 3 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn13_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn13_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn13_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn13_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn13_AE.flt".
+ Write faults completed: 13 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn13_ND.flt".
+ 16 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn14.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 13 faults were read in and 13 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 13 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               4      9    30.77%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          4
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND          9
+ -----------------------------------------------
+ total faults                                13
+ test coverage                            30.77%
+ fault coverage                           30.77%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.03
+ -----------------------------------------------
+ Write faults completed: 4 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn14_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn14_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn14_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn14_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn14_AE.flt".
+ Write faults completed: 9 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn14_ND.flt".
+ 13 faults were removed from the fault list.
+ Warning: Current external pattern set is now deleted. (M134)
+ End parsing STIL file b01/Partitioning_Stil/b01_pn15.stil with 0 errors.
+ End reading 1 patterns, CPU_time = 0.00 sec, Memory = 0MB
+ 9 faults were read in and 9 new faults were added to fault list.
+ Begin sequential simulation of 1 external patterns.
+ Warning: Expected values will be updated for all simulated patterns.
+ Simulation completed: #patterns=1/3, #fail_pats=0(0), #failing_meas=0(0), #rejected_pats=0, CPU time=0.00
+ Simulation performed for 9 faults on circuit size of 58 gates.
+ --------------------------------------------
+ #patterns     #faults     test      process
+ simulated  detect/active  coverage  CPU time
+ ---------  -------------  --------  --------
+ 1               1      8    11.11%      0.00
+ Fault simulation completed: #patterns=1, CPU time=0.00
+ Warning: Unused gate deletion affects fault coverage calculation. (M245)
+     Uncollapsed Stuck Fault Summary Report
+ -----------------------------------------------
+ fault class                     code   #faults
+ ------------------------------  ----  ---------
+ Detected                         DT          1
+ Possibly detected                PT          0
+ Undetectable                     UD          0
+ ATPG untestable                  AU          0
+ Not detected                     ND          8
+ -----------------------------------------------
+ total faults                                 9
+ test coverage                            11.11%
+ fault coverage                           11.11%
+ -----------------------------------------------
+            CPU Usage Summary Report
+ -----------------------------------------------
+ Read netlist CPU time                     0.00
+ Model build CPU time                      0.00
+ DRC CPU time                              0.00
+ ATPG CPU time                             0.00
+ Pattern compression CPU time              0.00
+ Fault Sim CPU time                        0.00
+ Good Sim CPU time                         0.00
+ Diagnosis CPU time                        0.00
+ Analyses CPU time                         0.00
+ Write pattern CPU time                    0.00
+ Total session CPU time                    0.03
+ -----------------------------------------------
+ Write faults completed: 1 faults were written into file "b01/Partitioning_Flt_Dropping_DT/b01_pn15_DT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_PT/b01_pn15_PT.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_UD/b01_pn15_UD.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AU/b01_pn15_AU.flt".
+ Write faults completed: 0 faults were written into file "b01/Partitioning_Flt_Dropping_AE/b01_pn15_AE.flt".
+ Write faults completed: 8 faults were written into file "b01/Partitioning_Flt_Dropping_ND/b01_pn15_ND.flt".
+ 9 faults were removed from the fault list.
+#Report Setting
+report_setting
+ atpg =            allow_clockon_measures=no, abort_limit=10, analyze_untestable_faults=no, capture_cycles=0,
+                   checkpoint=none, save_patterns=none,
+                   coverage=100.00, partition_coverage=no, decision=norandom, di_analysis=yes,
+                   full_seq_abort_limit=10, full_seq_atpg=no, full_seq_time=(10.0,0.0),
+                   full_seq_merge=off, merge=off 5000, basic_min_detects_per_pattern=(0,40),
+                   fast_min_detects_per_pattern=(0,40), full_min_detects_per_pattern=(0,40),
+                   lete_fastseq=no, min_ateclock_cycles=none,
+                   new_capture=no, patterns=0, quiet_padding_patterns=no, prevention=norandom, reset_bidis=yes,
+                   store=yes, resim_atpg_patterns=off, extra_cycle=yes
+                   summary=yes, time=(0.0,0.0), verbose=no,
+                   post_capture_contention_prevention=no,
+                   fill=random, adjacent_fill_range=0,
+                   optimize_bridge_strengths=no, min_patterns_threshold=0,
+                   power_budget=0,
+                   domain={},
+                   partition={},
+                   power_effort=low,
+                   seq_comp_optimizations=yes, misr_measure=once_per_pattern, seq_comp_chain_test=off,
+                   seq_comp_shift_power_target=no -all,
+                   xtol_enable_equivalence=no,
+                   shift_power_budget=none, shift_controller_peak=none, shift_power_effort=none,
+                   chain_test=0011, xtol_chain_diagnosis=OFF, single_load_per_pattern=no,
+                   quiet_chain_test=no, load_mode=0, load_value=0,
+                   fast_path_delay=yes,
+                   limits_per_mode=no
+                   streaming_xtol_chain_test=off,
+                   streaming_xtol_chain_diagnosis=off,
+                   timing_exceptions_au_analysis=no, calculate_power=no, parallel_strobe_data_file=none, replace_parallel_strobe_data_file=0, shared_io_analysis=no, clk_group_name=no, num_processes=0;
+                   advanced_clocking=off, staggered_clocks=0
+                   num_threads=0;
+ bist =            dbist=yes, debug=off, hex=yes, hex_diag_data=no,
+                   max_intervals=1000, max_pattern_cells=250,
+                   max_seed_patterns=16, max_total_cells=250, min_lfsr_length=20,
+                   multi_seeds_per_interval=no, num_dbist_patterns_per_interval=32,
+                   num_patterns_per_interval=256, randomize_pis=no, chain_test=no,
+                   sim_misr=yes, verbose=no, dump=none, max_routing=4
+                   pi_assumed_scan=no, po_assumed_scan=no, assume_bist_setup=no,
+                   force_lfsr_load=no, force_xdbist_scalable_selector=no,
+                   use_cell_constraints=no, use_constant_value_cells=yes,
+                   optimize_fault_sim=yes, trailing_edge_checking=yes;
+ build =           add_buffer=yes, delete_unused_gates=yes, fault_boundary=lowest,
+                   hierarchical_delimiter='/', limit_fanout=256, undriven_bidi=PIO,
+                   net_connections_change_netlist=yes, coerce_port_directions=no,
+                   merge: bus_keepers=yes
+                          cascaded_gates_with_pin_loss=no
+                          equivalent_dlat_dff=on
+                          feedback_paths=yes
+                          flipflop_from_dlat=on
+                          mux_from_gates=pin-preserve
+                          tied_gates_with_pin_loss=no
+                          global_tie_propagate=yes
+                          wire_to_buffer=yes
+                          xor_from_gates=pin-preserve
+                   bus_handling=none
+                   instance_modify=none
+                   black_box=none design_box=none portfault_box=none
+                   empty_box=none tie0_box=none tie1_box=none nobox=none;
+ buses =           external_z=Z, fault_contention=TIEX,
+                   contention_status=noignore all, zstate_status=noignore all;
+ commands =        abort=yes, history=yes;
+ contention =      multiple_on=yes, atpg=yes, bidi=yes, bus=yes,
+                   dff_dlat=no, float=no, preclock=yes,
+                   post_capture_clock_check=yes, ram=no, retain_bidi_direction=no,
+                   severity=warning, verbose=no, wire=no,
+                   capture_constraint_check=no;
+ delay =           diagnostic_propagation=no, launch_cycle=system_clock, mask_nontarget_paths=no,
+                   pi_changes=yes, po_measures=yes, relative_edge=no, robust_fill=yes,
+                   simulate_hazards=yes, allow_reconverging_paths=no,
+                   common_launch_capture_clock=no, allow_multiple_common_clocks=yes,
+                   slow_equivalence=no, two_clock_transition_optimization=yes, extra_force=yes
+                   data=none, disturb_clock_grouping=yes, transition_clocking_checks=no,
+                   slackdata_for_atpg=no, slackdata_for_faultsim=no
+                   infinite_slack_checks=no, negative_slack_checks=no
+                   max_delta_per_fault=0, max_tmgn=100%,
+                   sdql_exponential_function=yes,
+                   allow_functional_sensitization=no, allow_nonrobust_tests=yes, multicycle_length=0;
+                   any_pulse_launch_capture=no;
+ diagnosis =       time_limit=0, check_expected_data=yes,
+                   sample=(100000:96), chain_sample=(100:0),
+                   verbose=no, incomplete_failures=no, layout_data=yes,
+                   show_version=off, show_cycles=off,
+                   internal_cell_type=no, cell_aware=no, max_defective_chains=3, min_report_score=1
+                   max_report_failures=10, failure_memory_limit=0, failing_cycles_limit=0,
+                   cycle_offset=0, composite=no, pt_credit=no, auto=yes,
+                   dftmax_chain_format=no, per_pin_limit=no,
+                   original_pattern_id=no, use_dictionary=yes,
+                   organization=fault, order_candidates=match_score,
+                   filter_candidates={score_distance=20 min_score=50 max_number=10},
+                   filter_bridges={ambiguous=off same_cell=none},
+                   max_simulated_chains=3
+                   num_processes=0, post_procedure=none, process_fail=stop
+                   pattern=all on,
+                   mapping_report=no, fault_type=shared;
+                   use_default_offset=no, default_offset=0;
+                   use_phds=all
+                   intermediate_chain_faults=no
+ drc =             test_proc_file=../b01/b01.spf,
+                   allow_unstable_set_resets=no, bidi_control_pin=no, clock=dynamic,
+                   controller_clock=no, disturb_clock_grouping=yes, disturb_limits=1000 20,
+                   initialize_dff_dlat=X, multi_captures_per_load=yes, oscillation=500,
+                   remove_false_clocks=no, chain_trace=none, extract_cascaded_clock_gating=no, spc_chain =none,
+                   shadows=on, limit_shadow=none,
+                   skew=1, TLAs=yes, trace=off,
+                   store_setup=no, store_stability_patterns=no, store_unload_mode_data=no,
+                   store_setup_cycles=no,
+                   unstable_lsrams=no, compressor_debug_data=no,
+                   dslave_remodel=yes, reclassify_invalid_dslaves=yes, observe_invalid_dslaves=yes
+                   constraints=yes, z_check_with_all_constraints=no,
+                   use_cell_constraints=yes, clockdrc_use_cell_constraints=no,
+                   clock_constraints=none, internal_clock_timing=default,
+                   seq_comp_accumulator_mode=no,
+                   seq_comp_extend_test_setup=no, seq_comp_codec_drc_shifts_simulated=0,
+                   set_unload_mode_ports_to_x=yes,
+                   seq_comp_jtag_lbist_mode=off,
+                   multiple_pipes_per_port=no,
+                   dftmax_shift_cycles=0,
+                   load_nonscan_cells=no,
+                   store_full_cycles=NO_PROC,
+                   analyze_drc_violation=off
+                   blockage_aware_clock_grouping=no,
+                   regular_scan_shift_cycles=0,
+                   seq_comp_shift_power_zone=no -all,
+                   dynamic_clock_equivalencing=off, scan_shift_clocks=none,
+                   fast_multifrequency_capture=spf, multiframe_paths=no,
+                   observe_procedure=any, clock_gating_init_cycles_integer=0,
+                   pll_launch_on_shift=no, num_pll_cycles=0,
+                   check_multiple_shift_clocks=no,
+                   max_pll_simulation_passes=100, pll_simulate_test_setup=no,
+                   pipeline=no, pipeline_in_compressor=yes,
+                   report_x_sink=no, xchain_threshold_probability=0,
+                   freerunning_expansion=yes,
+                   allow_clocks_as_scan=no,
+                   check_user_serializer_bits=yes,
+                   lockup_after_compressor=no,
+                   independent_sync_clocks=no;
+                   max_unidentifiable_scan_chains=100;
+                   capture_delay=0;
+ distributed =     shell_timeout=30, slave_setup_timeout=100, print_stats_timeout=30,
+                   script=none, work_dir=none,
+                   verbose=-noverbose,
+                   shell=rsh;
+ faults =          atpg_effectiveness=no, au_credit=0, ax_credit=0, equiv_code=(--),
+                   fault_coverage=yes, interval_fault_coverage=no, model=stuck, pt_credit=50, report=uncollapsed,
+                   bridge_inputs=no, persistent_fault_models=no,
+                   multi_fanout_di_faults=yes, summary=noverbose, store_dictionary=0,
+ iddq =            atpg=no, float=yes, strong=yes, toggle=no, weak=yes, write=yes, bridge_equivalence=yes,
+                   exclude_ports=all,
+                   interval_size=1;
+ learning =        atpg_equivalence=on(sim_passes=32, test_passes=5000),
+                   common_input=yes, equivalent_latches=yes, implication=medium,
+                   disable_time_limits=no, max_feedback_sources=100, verbose=no;
+                   num_threads=0;
+ messages =        display=yes, leading_comment=no, level=standard, transcript_comments=yes,
+                   logfile=off
+ netlist =         celldefine=yes, check_only_used_udps=yes, dominance_detection=on, conservative_mux=combinational_udp,
+                   enable_portfaults=yes, escape=both, max_errors=10, v2k=no, work_dir=".",
+                   pin_assign=no, redefined_module=last, scalar_net=no,
+                   sequential_modeling=no, suppress_faults=yes, xmodeling=yes;
+ patterns =        source=external,
+                   split_patterns=none,
+                   histogram_summary=no, load_summary=no, verilog_last_scan=yes,
+                   netlist_independent=no, measure_forced_bidis=no, verbose=no;
+ physical_db =     hostname=none, port_number=none,
+                   device=none, version=none,
+                   lef_directory=none,
+                   def_directory=none,
+                   database=none,
+                   top_def_file=none,
+                   technology_lef_file=none;
+                   validation=ON
+                   create_phds=ON
+                   phds_validation_file=none;
+                   retry_connection=none;
+ pindata =         none;
+                   -shift_character=S, -constrain_character=X;
+ primitive_report= interval=0, max_fanout=2, time=all, verbose=no;
+ random_patterns = clock=none, length=1024, observe_type=master;
+ sdc=              verbose=no, setup=yes, hold=yes, mark_gui_gates=no, show_all_matches=no
+                   case_paths=no, false_paths=yes,
+                   multicycle_paths=yes, disable_paths=yes,
+                   delete_common_clock_exceptions=no,
+                   instance=none,
+                   environment=none;
+ simulation =      basic_scan=yes, bidi_fill=off, data=(0:-1), measure=pat,
+                   analyze_x_sources=no, analyze_x_effects=no,
+                   source_disturb=default,
+                   capture_mask_always_x=no,
+                   xclock_gives_xout=no, xfill_out_of_range_write=no,
+                   pipeline_cells=yes, timing_exceptions_for_stuck_at=no, check_padding_patterns=no
+                   use_timing_exceptions=yes
+                   oscillation=(10,2), store_memory_contents=no,
+                   shift_cycles=0,
+                   progress_message=0,
+                   words_per_pass=32, verbose=no,
+                   dominance_use=off, two_clock_resim=no, num_processes=0;
+                   num_threads=0;
+ vsv =             port_number=0, timeout=60,
+                   status=inactive
+ wgl =             chain_list=shift, forces_during_load=previous, group_bidis=no, initial_zx=as_is,
+                   inversion_reference=master, last_scan=yes, macro_usage=no, pad=no,
+                   scan_map=dash, scan_data_format=pre_measured,
+                   bidi_map=(Z0,-0)(Z1,-1)(0X,0-)(1X,1-)(XX,X-)(ZX,-X)(-X,--)(ZZ,-Z)(Z-,--)
+ workspace_sizes = atpg_gates=1024, connectors=20000, decisions=10000, DRC_buffer_size=1000, line=50000, string=2048, command_line=50000, command_words=10000, max_trace_gates=500;
+quit

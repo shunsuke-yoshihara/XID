@@ -15,14 +15,16 @@
 
 ```text
 % cd ET1
-% tmax -shell b14/b14_FaultSim_Per_Patetrn_Dropping.tmx > b14/b14_FaultSim_Per_Patetrn_Dropping.tmx.log
+% tmax -shell b14/b14_FaultSim_Per_Pattern_Dropping.tmx > b14/b14_FaultSim_Per_Pattern_Dropping.tmx.log
 ```
 
 
 3. 下図のフローチャートで、右側に示す処理をTetraMAX上で実行
 ```text
 % cd ET1
-% nohup tmax -shell tcl/b14_ET1.tcl > tcl/b14_ET1.tcl.log 2>&1 &
+% setsid nohup tmax -shell tcl/b14_ET1.tcl > tcl/b14_ET1.tcl.log 2>&1 < /dev/null &
+% disown
+% ps -ef | grep tmax | grep b14 (TTY が?ならば、SSH切断しても問題ない)
 ```
 
 
@@ -69,42 +71,3 @@ O --> P{"最終パタン未到達?"}
 P -- Yes --> H
 P -- No --> Q((終了))
 
-
-
-flowchart TB
-    東京((東京))
-    
-    subgraph 山手線
-        direction clockwise
-        
-        東京 --> 神田
-        神田 --> 秋葉原
-        秋葉原 --> 御徒町
-        御徒町 --> 上野
-        上野 --> 鶯谷
-        鶯谷 --> 日暮里
-        日暮里 --> 西日暮里
-        西日暮里 --> 田端
-        田端 --> 駒込
-        駒込 --> 巣鴨
-        巣鴨 --> 大塚
-        大塚 --> 池袋
-        池袋 --> 目白
-        目白 --> 高田馬場
-        高田馬場 --> 新大久保
-        新大久保 --> 新宿
-        新宿 --> 代々木
-        代々木 --> 原宿
-        原宿 --> 渋谷
-        渋谷 --> 恵比寿
-        恵比寿 --> 目黒
-        目黒 --> 五反田
-        五反田 --> 大崎
-        大崎 --> 品川
-        品川 --> 高輪ゲートウェイ
-        高輪ゲートウェイ --> 田町
-        田町 --> 浜松町
-        浜松町 --> 新橋
-        新橋 --> 有楽町
-        有楽町 --> 東京
-    end
